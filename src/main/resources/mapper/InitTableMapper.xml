@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nmy.spb.mapper.InitTableMapper">
+ 
+    <update id="initUserPostBarTable" parameterType="String">
+         CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    pb_one_id varchar(50),
+                    pb_date datetime,
+                    pb_article varchar(900),
+                    pb_image_url varchar(1000),
+                    pb_voice char(150),
+                    pb_video char(150),
+                    pb_topic varchar(150),
+                    pb_location varchar(100),
+                    pb_thumb_num int(11),
+                    pb_comment_num int(11)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    <update id="initUserDiaryTable" parameterType="String">
+        CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    dia_date datetime,
+                    dia_weather int(2),
+                    dia_message varchar(900),
+                    dia_image char(300)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    <update id="initUserAttentiontopicTable" parameterType="String">
+        CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    topic_id int(11),
+                    topic_name varchar(35),
+                    topic_date datetime
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    <update id="initUserCollectbarTable" parameterType="String">
+        CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    pb_one_id varchar(50),
+                    user_account varchar(35)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    <update id="initUserFollowTable" parameterType="String">
+        CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    user_account varchar(35)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    <update id="initUserFollowedTable" parameterType="String">
+        CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    user_account varchar(35)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    <update id="initUserLikeTable" parameterType="String">
+        CREATE TABLE ${dname}(
+                    id int(11) UNSIGNED auto_increment primary key,
+                    pb_one_id varchar(50)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    </update>
+
+    
+</mapper>
