@@ -36,15 +36,16 @@ public class LikeController {
 
     /**
      * @Description: 必要数据：pb_one_id,user_account
-     * 返回：RequestJson -> 状态码
-     * @Param: [pbId, userAccount]
+     * 非必要数据：cache_account
+     * 返回：RequestEntityJson -> 状态码&String(ip)  |  RequestJson -> 状态码
+     * @Param: [pbId, userAccount, cacheAccount]
      * @return: java.lang.String
      * @Author: nmy
-     * @Date: 2022-01-26 19:58
+     * @Date: 2022-01-27 21:59
      */
     @RequestMapping("/addLike")
-    public String addLike(@RequestParam("pb_one_id") String pbId, @RequestParam("user_account") String userAccount) {
-        return likeService.addLike(pbId, userAccount);
+    public String addLike(@RequestParam("pb_one_id") String pbId, @RequestParam("user_account") String userAccount, @RequestParam("cache_account") String cacheAccount) {
+        return likeService.addLike(pbId, userAccount, cacheAccount);
     }
 
     /**

@@ -35,7 +35,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public String queryFollowList(String userAccount) {
-        List<Follow> follows = followMapper.queryFollowList(userAccount);
+        List<String> follows = followMapper.queryFollowList(userAccount);
         return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, follows));
     }
 

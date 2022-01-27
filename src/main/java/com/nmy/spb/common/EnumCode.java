@@ -10,8 +10,10 @@ public enum EnumCode {
     SUCCESS_DEFAULT(200, ""),
     ERROR_DEFAULT(4004, "错误，请重试"),
 
-    SUCCESS_ADD_ATTENTONTOPIC(200, "已收藏话题"),
-    SUCCESS_DELETE_ATTENTONTOPIC(200, "取消收藏"),
+    SUCCESS_COLLECT(200, "已收藏"),
+
+    SUCCESS_ADD_ATTENTONTOPIC(200, "已关注话题"),
+    SUCCESS_DELETE_ATTENTONTOPIC(200, "取消关注"),
 
 
     SUCCESS_COMMENT(200, "已评论"),
@@ -30,6 +32,10 @@ public enum EnumCode {
 
 
     SUCCESS_UPDATA_PASSWORD(200, "密码修改成功"),
+
+
+    SUCCESS_DIARY(200, "已发布"),
+    SUCCESS_DELETE_DIARY(200, "已删除"),
     ;
 
 

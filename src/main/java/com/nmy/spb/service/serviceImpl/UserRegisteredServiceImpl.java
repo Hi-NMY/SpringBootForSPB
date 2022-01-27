@@ -9,6 +9,7 @@ import com.nmy.spb.mapper.UserIpMapper;
 import com.nmy.spb.service.SqlResultService;
 import com.nmy.spb.service.UserRegisteredService;
 import com.nmy.spb.utils.DataVerificationTool;
+import com.nmy.spb.utils.FileUpload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -25,16 +26,8 @@ import java.io.File;
 @Service
 public class UserRegisteredServiceImpl implements UserRegisteredService {
 
-    private static final String PREFIX = "D:/php/php/PHPTutorial/WWW/spb/UserImageServer/";
-
-    private static final String PREFIX_LOCAL = "upload/UserImageServer/";
-
     private static final String[] PATH = {"/HeadImage/", "/BackgroundImage/", "/PostBarImage/"
             , "/APostBarImage/", "/Voice/", "/Video/", "/Diary/", "/Other/"};
-
-    private static final String HEAD_IMAGE_PATH = "/HeadImage/";
-
-    private static final String HEAD_IMAGE_NAME = "myHeadImage.png";
 
     @Resource
     AccountSecurityMapper accountSecurityMapper;
@@ -69,7 +62,8 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
         }
         try {
             int ai = initTableMapper.addSignRegistered(account);
-            int bi = initTableMapper.addUserRegistered(account, userName, PREFIX_LOCAL + account + HEAD_IMAGE_PATH + HEAD_IMAGE_NAME);
+            int bi = initTableMapper.addUserRegistered(account, userName,
+                    FileUpload.PREFIX_LOCAL + account + FileUpload.HEAD_IMAGE_PATH + FileUpload.HEAD_IMAGE_NAME);
             int ci = initTableMapper.addUsersRegistered(account, password);
             int di = userIpMapper.updateUserToken(account, userToken);
             if (sqlResultService.transactionalProcess(ai, bi, ci, di)) {
@@ -77,7 +71,7 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
                 }
-                if (getHeadImageUrl(file, account) == null) {
+                if (FileUpload.getOneImageUrl(file, account, FileUpload.HEAD_IMAGE_PATH) == null) {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return sqlResultService.noProcess(EnumCode.ERROR_HEADIMAGE_UPLOAD);
                 }
@@ -95,7 +89,7 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
     private boolean createFolder(String account) {
         boolean key = true;
         for (String s : PATH) {
-            File path = new File(PREFIX + account + s);
+            File path = new File(FileUpload.PREFIX + account + s);
             if (!path.exists()) {
                 key = path.mkdirs();
             }
@@ -104,25 +98,5 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
             }
         }
         return true;
-    }
-
-    private String getHeadImageUrl(MultipartFile f, String account) {
-        try {
-            String originalFilename = f.getOriginalFilename();
-            String contentType = f.getContentType();
-            if ("".equals(originalFilename)) {
-                return null;
-            }
-
-            if (!"image/jpeg".equals(contentType) && !"image/png".equals(contentType)) {
-                return null;
-            }
-
-            f.transferTo(new File(PREFIX + account + HEAD_IMAGE_PATH + HEAD_IMAGE_NAME));
-            return PREFIX_LOCAL + account + HEAD_IMAGE_PATH + HEAD_IMAGE_NAME;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

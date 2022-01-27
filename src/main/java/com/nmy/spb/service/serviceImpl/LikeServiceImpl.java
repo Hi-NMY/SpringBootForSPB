@@ -1,12 +1,15 @@
 package com.nmy.spb.service.serviceImpl;
 
 import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestEntityJson;
 import com.nmy.spb.common.RequestListJson;
 import com.nmy.spb.domain.pojo.Like;
 import com.nmy.spb.mapper.LikeMapper;
 import com.nmy.spb.mapper.PostBarMapper;
+import com.nmy.spb.mapper.UserIpMapper;
 import com.nmy.spb.service.LikeService;
 import com.nmy.spb.service.SqlResultService;
+import com.nmy.spb.utils.DataVerificationTool;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -26,6 +29,9 @@ public class LikeServiceImpl implements LikeService {
     LikeMapper likeMapper;
 
     @Resource
+    UserIpMapper userIpMapper;
+
+    @Resource
     PostBarMapper postBarMapper;
 
     @Resource
@@ -39,16 +45,20 @@ public class LikeServiceImpl implements LikeService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public String addLike(String pbId, String userAccount) {
+    public String addLike(String pbId, String userAccount, String cacheAccount) {
         try {
             int bi = likeMapper.addLike(userAccount, pbId);
             int ai = postBarMapper.updateIncreaseLike(pbId);
-            if (sqlResultService.transactionalProcess(ai, bi)) {
-                return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
-            } else {
+            if (!sqlResultService.transactionalProcess(ai, bi)) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
             }
+
+            if (!DataVerificationTool.isEmpty(cacheAccount)) {
+                String userIp = userIpMapper.queryUserIp(cacheAccount);
+                return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userIp));
+            }
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);

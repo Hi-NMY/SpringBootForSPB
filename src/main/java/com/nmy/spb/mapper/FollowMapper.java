@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface FollowMapper {
 
-    @Select("SELECT id,followed_account " +
+    @Select("SELECT followed_account " +
             "FROM follow " +
             "WHERE follow_account = #{follow_account}" +
             "ORDER BY id DESC")
-    List<Follow> queryFollowList(@Param("follow_account") String account);
+    List<String> queryFollowList(@Param("follow_account") String account);
 
     @Select("SELECT follow.id,user.user_account,user.user_name,user.user_badge,students.stu_sex " +
             "FROM (follow left join user on follow.followed_account = user.user_account) " +
@@ -38,11 +38,11 @@ public interface FollowMapper {
             "where follow_account = #{follow_account} AND followed_account = #{followed_account}")
     int deleteFollow(@Param("follow_account") String followAccount, @Param("followed_account") String followedAccount);
 
-    @Select("SELECT id,follow_account " +
+    @Select("SELECT follow_account " +
             "FROM follow " +
             "WHERE followed_account = #{followed_account}" +
             "ORDER BY id DESC")
-    List<Follow> queryFollowedList(@Param("followed_account") String account);
+    List<String> queryFollowedList(@Param("followed_account") String account);
 
     @Select("SELECT follow.id,user.user_account,user.user_name,user.user_badge,students.stu_sex " +
             "FROM (follow left join user on follow.follow_account = user.user_account) " +

@@ -9,7 +9,7 @@ public interface LikeService {
 
     String queryLike(String userAccount);
 
-    String addLike(String pbId, String userAccount);
+    String addLike(String pbId, String userAccount, String cacheAccount);
 
     String deleteLike(String pbId, String userAccount);
 
