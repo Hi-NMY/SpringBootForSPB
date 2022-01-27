@@ -15,5 +15,6 @@ import lombok.NoArgsConstructor;
 public class Follow{
 
     public int id;
-    public String user_account;
+    public String follow_account;
+    public String followed_account;
 }

@@ -1,15 +1,15 @@
 package com.nmy.spb.service;
 
-import java.util.List;
+import com.nmy.spb.common.EnumCode;
 
 /**
  * @author nmy
  * @title: SqlResultService
  * @date 2022-01-22 19:54
  */
-public interface SqlResultService{
+public interface SqlResultService {
 
-    String noProcess(int code);
+    String noProcess(EnumCode code);
 
     String process(Object Obj);
 

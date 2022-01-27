@@ -16,9 +16,4 @@ public interface TopicService {
     String queryTopicFull(String topicName);
 
     String querySearchTopicFullList(String topicName);
-
-    String updateTopicIncreaseAttention(String id);
-
-    String updateTopicDecreaseAttention(String id);
-
 }

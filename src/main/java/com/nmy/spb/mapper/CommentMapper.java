@@ -1,7 +1,10 @@
 package com.nmy.spb.mapper;
 
 import com.nmy.spb.domain.dto.CommentDto;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -14,7 +17,7 @@ public interface CommentMapper {
 
     @Select("SELECT IFNULL(MAX(comment_id),0) " +
             "from postbar_comment " +
-            "WHERE postbar_comment.pb_one_id = #{pb_one_id}" )
+            "WHERE postbar_comment.pb_one_id = #{pb_one_id}")
     int queryMaxCommentId(@Param("pb_one_id") String pbId);
 
     @Insert("INSERT into postbar_comment(pb_one_id,comment_art,comment_date,comment_user,comment_touser,comment_id) " +
@@ -34,10 +37,10 @@ public interface CommentMapper {
             "on t.comment_user = t1.user_account " +
             "left join user t2 on t.comment_touser = t2.user_account " +
             "WHERE t.pb_one_id = #{pb_one_id} AND t.comment_id = #{comment_id}")
-    CommentDto queryCommentOne(@Param("pb_one_id") String pbId,@Param("comment_id") String commentId);
+    CommentDto queryCommentOne(@Param("pb_one_id") String pbId, @Param("comment_id") String commentId);
 
     @Delete("DELETE FROM postbar_comment " +
             "where pb_one_id = #{pb_one_id} AND comment_id = #{comment_id}")
-    int deleteComment(@Param("pb_one_id") String pbId,@Param("comment_id") String commentId);
+    int deleteComment(@Param("pb_one_id") String pbId, @Param("comment_id") String commentId);
 
 }

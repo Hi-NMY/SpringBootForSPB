@@ -1,11 +1,16 @@
 package com.nmy.spb.service.serviceImpl;
 
+import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestEntityJson;
+import com.nmy.spb.common.RequestListJson;
+import com.nmy.spb.domain.pojo.Topic;
 import com.nmy.spb.mapper.TopicMapper;
 import com.nmy.spb.service.SqlResultService;
 import com.nmy.spb.service.TopicService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author nmy
@@ -23,38 +28,33 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public String queryTopicNameList() {
-        return sqlResultService.process(topicMapper.queryTopicNameList());
+        List<String> strings = topicMapper.queryTopicNameList();
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, strings));
     }
 
     @Override
     public String querySearchTopicNameList(String topicName) {
-        return sqlResultService.process(topicMapper.querySearchTopicNameList(topicName));
+        List<String> strings = topicMapper.querySearchTopicNameList(topicName);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, strings));
     }
 
     @Override
     public String queryRundomTopicFullList() {
-        int min = (int) (Math.random() * 200)  + 100;
-        int max = (int) (Math.random() * 500)  + 500;
-        return sqlResultService.process(topicMapper.queryRundomTopicFullList(min,max));
+        int min = (int) (Math.random() * 200) + 100;
+        int max = (int) (Math.random() * 500) + 500;
+        List<Topic> topics = topicMapper.queryRundomTopicFullList(min, max);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, topics));
     }
 
     @Override
     public String queryTopicFull(String topicName) {
-        return sqlResultService.process(topicMapper.queryTopicFull(topicName));
+        Topic topic = topicMapper.queryTopicFull(topicName);
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, topic));
     }
 
     @Override
     public String querySearchTopicFullList(String topicName) {
-        return sqlResultService.process(topicMapper.querySearchTopicFullList(topicName));
-    }
-
-    @Override
-    public String updateTopicIncreaseAttention(String id) {
-        return sqlResultService.noProcess(topicMapper.updateTopicIncreaseAttention(Integer.parseInt(id)));
-    }
-
-    @Override
-    public String updateTopicDecreaseAttention(String id) {
-        return sqlResultService.noProcess(topicMapper.updateTopicDecreaseAttention(Integer.parseInt(id)));
+        List<Topic> topics = topicMapper.querySearchTopicFullList(topicName);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, topics));
     }
 }

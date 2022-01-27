@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+
 /**
  * @author nmy
  * @title: CommentDto
@@ -24,6 +25,7 @@ public class CommentDto implements Serializable {
     public String user_toname;
     public int comment_id;
     public String cache_account;
+    public String user_ip;
 
     public String getPb_one_id() {
         return pb_one_id == null ? "" : pb_one_id;
@@ -55,5 +57,13 @@ public class CommentDto implements Serializable {
 
     public String getCache_account() {
         return cache_account == null ? "" : cache_account;
+    }
+
+    public String getUser_ip() {
+        return user_ip == null ? "" : user_ip;
+    }
+
+    public void setUser_ip(String user_ip) {
+        this.user_ip = user_ip;
     }
 }

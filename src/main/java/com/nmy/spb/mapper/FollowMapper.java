@@ -16,23 +16,39 @@ import java.util.List;
  */
 public interface FollowMapper {
 
-    @Select("SELECT id,user_account " +
-            "FROM ${dname} " +
+    @Select("SELECT id,followed_account " +
+            "FROM follow " +
+            "WHERE follow_account = #{follow_account}" +
             "ORDER BY id DESC")
-    List<Follow> queryFollowList(@Param("dname") String dname);
+    List<Follow> queryFollowList(@Param("follow_account") String account);
 
-    @Select("SELECT ${dname}.id,user.user_account,user.user_name,user.user_badge,students.stu_sex " +
-            "FROM (${dname} left join user on ${dname}.user_account = user.user_account) " +
+    @Select("SELECT follow.id,user.user_account,user.user_name,user.user_badge,students.stu_sex " +
+            "FROM (follow left join user on follow.followed_account = user.user_account) " +
             "left join students " +
-            "on ${dname}.user_account = students.stu_num " +
-            "ORDER BY ${dname}.id DESC")
-    List<FollowUserDto> queryFollowUserList(@Param("dname") String dname);
+            "on follow.followed_account = students.stu_num " +
+            "WHERE follow.follow_account = #{follow_account}" +
+            "ORDER BY follow.id DESC")
+    List<FollowUserDto> queryFollowUserList(@Param("follow_account") String account);
 
-    @Insert("INSERT into ${dname}(user_account) " +
-            "values(#{cache_account})")
-    int addFollow(@Param("dname") String dname , @Param("cache_account") String cacheAccount);
+    @Insert("INSERT into follow(follow_account,followed_account) " +
+            "values(#{follow_account},#{followed_account})")
+    int addFollow(@Param("follow_account") String followAccount, @Param("followed_account") String followedAccount);
 
-    @Delete("DELETE FROM ${dname} " +
-            "where user_account = #{cache_account}")
-    int deleteFollow(@Param("dname") String dname , @Param("cache_account") String cacheAccount);
+    @Delete("DELETE FROM follow " +
+            "where follow_account = #{follow_account} AND followed_account = #{followed_account}")
+    int deleteFollow(@Param("follow_account") String followAccount, @Param("followed_account") String followedAccount);
+
+    @Select("SELECT id,follow_account " +
+            "FROM follow " +
+            "WHERE followed_account = #{followed_account}" +
+            "ORDER BY id DESC")
+    List<Follow> queryFollowedList(@Param("followed_account") String account);
+
+    @Select("SELECT follow.id,user.user_account,user.user_name,user.user_badge,students.stu_sex " +
+            "FROM (follow left join user on follow.follow_account = user.user_account) " +
+            "left join students " +
+            "on follow.follow_account = students.stu_num " +
+            "WHERE follow.followed_account = #{followed_account}" +
+            "ORDER BY follow.id DESC")
+    List<FollowUserDto> queryFollowedUserList(@Param("followed_account") String account);
 }

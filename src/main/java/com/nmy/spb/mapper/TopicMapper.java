@@ -38,11 +38,11 @@ public interface TopicMapper {
     @Select("SELECT id,topic_name,topic_barnum,topic_attentionnum,topic_slogan,topic_image " +
             "FROM topic " +
             "WHERE topic_name concat('%',#{topic_name},'%')")
-    List<String> querySearchTopicFullList(@Param("topic_name") String topicName);
+    List<Topic> querySearchTopicFullList(@Param("topic_name") String topicName);
 
     @Update("UPDATE topic set topic_attentionnum = topic_attentionnum + 1 where id = #{topic_id}")
-    int updateTopicIncreaseAttention(@Param("topic_id") int id);
+    int updateIncreaseAttention(@Param("topic_id") int id);
 
     @Update("UPDATE topic set topic_attentionnum = topic_attentionnum - 1 where id = #{topic_id}")
-    int updateTopicDecreaseAttention(@Param("topic_id") int id);
+    int updateReduceAttention(@Param("topic_id") int id);
 }

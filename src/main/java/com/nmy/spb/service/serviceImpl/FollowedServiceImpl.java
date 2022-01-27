@@ -1,12 +1,16 @@
 package com.nmy.spb.service.serviceImpl;
 
-import com.nmy.spb.mapper.FollowedMapper;
+import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestListJson;
+import com.nmy.spb.domain.dto.FollowUserDto;
+import com.nmy.spb.domain.pojo.Follow;
+import com.nmy.spb.mapper.FollowMapper;
 import com.nmy.spb.service.FollowedService;
 import com.nmy.spb.service.SqlResultService;
-import com.nmy.spb.utils.DatabasesTableNameTool;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author nmy
@@ -17,18 +21,20 @@ import javax.annotation.Resource;
 public class FollowedServiceImpl implements FollowedService {
 
     @Resource
-    FollowedMapper followedMapper;
+    FollowMapper followMapper;
 
     @Resource
     SqlResultService sqlResultService;
 
     @Override
     public String queryFollowedList(String userAccount) {
-        return sqlResultService.process(followedMapper.queryFollowedList(DatabasesTableNameTool.getFollowedName(userAccount)));
+        List<Follow> follows = followMapper.queryFollowedList(userAccount);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, follows));
     }
 
     @Override
     public String queryFollowedUserList(String userAccount) {
-        return sqlResultService.process(followedMapper.queryFollowedUserList(DatabasesTableNameTool.getFollowedName(userAccount)));
+        List<FollowUserDto> followUserDtos = followMapper.queryFollowedUserList(userAccount);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, followUserDtos));
     }
 }

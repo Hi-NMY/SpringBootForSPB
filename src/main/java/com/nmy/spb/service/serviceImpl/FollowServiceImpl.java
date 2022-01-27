@@ -1,18 +1,17 @@
 package com.nmy.spb.service.serviceImpl;
 
-import com.nmy.spb.common.RequestResultCode;
+import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestEntityJson;
+import com.nmy.spb.common.RequestListJson;
 import com.nmy.spb.common.SQLResultCode;
+import com.nmy.spb.domain.dto.FollowUserDto;
 import com.nmy.spb.domain.pojo.Follow;
 import com.nmy.spb.mapper.FollowMapper;
-import com.nmy.spb.mapper.FollowedMapper;
 import com.nmy.spb.mapper.UserIpMapper;
 import com.nmy.spb.service.FollowService;
 import com.nmy.spb.service.SqlResultService;
-import com.nmy.spb.utils.DatabasesTableNameTool;
+import com.nmy.spb.utils.DataVerificationTool;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -29,9 +28,6 @@ public class FollowServiceImpl implements FollowService {
     FollowMapper followMapper;
 
     @Resource
-    FollowedMapper followedMapper;
-
-    @Resource
     SqlResultService sqlResultService;
 
     @Resource
@@ -39,49 +35,37 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public String queryFollowList(String userAccount) {
-        return sqlResultService.process(followMapper.queryFollowList(DatabasesTableNameTool.getFollowName(userAccount)));
+        List<Follow> follows = followMapper.queryFollowList(userAccount);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, follows));
     }
 
     @Override
     public String queryFollowUserList(String userAccount) {
-        return sqlResultService.process(followMapper.queryFollowUserList(DatabasesTableNameTool.getFollowName(userAccount)));
+        List<FollowUserDto> followUserDtos = followMapper.queryFollowUserList(userAccount);
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, followUserDtos));
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public String addFollow(String cacheAccount, String userAccount) {
-        try {
-            int ai = followMapper.addFollow(DatabasesTableNameTool.getFollowName(userAccount), cacheAccount);
-            int bi = followedMapper.addFollowed(DatabasesTableNameTool.getFollowedName(cacheAccount), userAccount);
+    public String addFollow(String followAccount, String followedAccount) {
+        int value = followMapper.addFollow(followAccount, followedAccount);
 
-            if (ai == SQLResultCode.SUCCEES && bi == SQLResultCode.SUCCEES){
-                String ip = userIpMapper.queryUserIp(cacheAccount);
-                return RequestResultCode.SUCCEES + ip;
-            }else {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return RequestResultCode.ERROR;
+        if (value == SQLResultCode.SUCCEES) {
+            String ip = userIpMapper.queryUserIp(followedAccount);
+            if (DataVerificationTool.isEmpty(ip)) {
+                return sqlResultService.noProcess(EnumCode.SUCCESS_FOLLOW);
             }
-        }catch (Exception e){
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return RequestResultCode.ERROR;
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_FOLLOW, ip));
         }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public String deleteFollow(String cacheAccount, String userAccount) {
-        try {
-            int ai = followMapper.deleteFollow(DatabasesTableNameTool.getFollowName(userAccount), cacheAccount);
-            int bi = followedMapper.deleteFollowed(DatabasesTableNameTool.getFollowedName(cacheAccount), userAccount);
-            if (ai == SQLResultCode.SUCCEES && bi == SQLResultCode.SUCCEES){
-                return RequestResultCode.SUCCEES;
-            }else {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return RequestResultCode.ERROR;
-            }
-        }catch (Exception e){
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return RequestResultCode.ERROR;
+    public String deleteFollow(String followAccount, String followedAccount) {
+        int value = followMapper.deleteFollow(followAccount, followedAccount);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DELETE_FOLLOW);
         }
+
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 }

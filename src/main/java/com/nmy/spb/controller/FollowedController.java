@@ -21,13 +21,29 @@ public class FollowedController {
     @Resource
     FollowedService followedService;
 
+    /**
+     * @Description: 必要数据：user_account
+     * 返回：RequestListJson -> 状态码&Follow
+     * @Param: [userAccount]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 11:37
+     */
     @RequestMapping("/queryFollowedList")
-    public String queryFollowedList(@RequestParam("user_account") String userAccount){
+    public String queryFollowedList(@RequestParam("user_account") String userAccount) {
         return followedService.queryFollowedList(userAccount);
     }
 
+    /**
+     * @Description: 必要数据：user_account
+     * 返回：RequestListJson -> 状态码&FollowUserDto
+     * @Param: [userAccount]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 11:38
+     */
     @RequestMapping("/queryFollowedUserList")
-    public String queryFollowedUserList(@RequestParam("user_account") String userAccount){
+    public String queryFollowedUserList(@RequestParam("user_account") String userAccount) {
         return followedService.queryFollowedUserList(userAccount);
     }
 

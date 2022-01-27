@@ -17,5 +17,10 @@ public interface UserIpMapper {
     @Update("UPDATE user " +
             "SET user_ip = #{userIp} " +
             "WHERE user_account = #{user_account}")
-    int updateUserIp(@Param("user_account")String userAccount,@Param("user_ip")String userIp);
+    int updateUserIp(@Param("user_account") String userAccount, @Param("user_ip") String userIp);
+
+    @Update("UPDATE user " +
+            "SET user_token = #{user_token} " +
+            "WHERE user_account = #{user_account}")
+    int updateUserToken(@Param("user_account") String userAccount, @Param("user_token") String userToken);
 }

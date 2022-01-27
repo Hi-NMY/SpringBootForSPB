@@ -1,8 +1,5 @@
 package com.nmy.spb.service;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.Map;
 
 /**
@@ -10,12 +7,12 @@ import java.util.Map;
  * @title: AttentionService
  * @date 2022-01-22 18:11
  */
-public interface AttentionService{
+public interface AttentionService {
 
-    String addAttentionTopic( Map<String,String> params);
+    String addAttentionTopic(Map<String, String> params);
 
     String queryAttentionTopic(String account);
 
-    String deleteAttentionTopicById(String id,String userAccount);
+    String deleteAttentionTopicById(String id, String userAccount);
 
 }

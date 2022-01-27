@@ -1,9 +1,6 @@
 package com.nmy.spb.service;
 
 import com.nmy.spb.domain.dto.CommentDto;
-import com.nmy.spb.domain.pojo.Comment;
-
-import java.util.Map;
 
 /**
  * @author nmy

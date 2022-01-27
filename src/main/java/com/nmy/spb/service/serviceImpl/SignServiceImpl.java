@@ -1,7 +1,9 @@
 package com.nmy.spb.service.serviceImpl;
 
-import com.nmy.spb.common.RequestResultCode;
+import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestEntityJson;
 import com.nmy.spb.common.SQLResultCode;
+import com.nmy.spb.domain.pojo.Sign;
 import com.nmy.spb.mapper.SignMapper;
 import com.nmy.spb.mapper.UserMapper;
 import com.nmy.spb.service.SignService;
@@ -31,22 +33,35 @@ public class SignServiceImpl implements SignService {
 
     @Override
     public String queryUserSign(String userAccount) {
-        return sqlResultService.process(signMapper.queryUserSign(userAccount));
+        Sign sign = signMapper.queryUserSign(userAccount);
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, sign));
     }
 
     @Override
     public String updateSignDay(String userAccount) {
-        return sqlResultService.noProcess(signMapper.updateSignDay(userAccount));
+        int value = signMapper.updateSignDay(userAccount);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Override
     public String updateSignRight(String userAccount) {
-        return sqlResultService.noProcess(signMapper.updateSignRight(userAccount));
+        int value = signMapper.updateSignRight(userAccount);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Override
     public String updateSignDayAndRight(String userAccount) {
-        return sqlResultService.noProcess(signMapper.updateSignDayAndRight(userAccount));
+        int value = signMapper.updateSignDayAndRight(userAccount);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -55,35 +70,51 @@ public class SignServiceImpl implements SignService {
         try {
             int ai = signMapper.updateSignDayAndRightAndCoin(userAccount, signDay, Integer.parseInt(coin));
             int bi = userMapper.updateUserLongDay(userAccount);
-            if (sqlResultService.transactionalProcess(ai,bi)){
-                return RequestResultCode.SUCCEES;
-            }else {
+            if (sqlResultService.transactionalProcess(ai, bi)) {
+                return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+            } else {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return RequestResultCode.ERROR;
+                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return RequestResultCode.ERROR;
+            return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
     }
 
     @Override
     public String updateSignCoin(String userAccount, String coin) {
-        return sqlResultService.noProcess(signMapper.updateSignCoin(userAccount,Integer.parseInt(coin)));
+        int value = signMapper.updateSignCoin(userAccount, Integer.parseInt(coin));
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Override
     public String updateSignStarBadge(String userAccount, String starBadge) {
-        return sqlResultService.noProcess(signMapper.updateSignStarBadge(userAccount,starBadge));
+        int value = signMapper.updateSignStarBadge(userAccount, starBadge);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Override
     public String updateSignLikeBadge(String userAccount, String likeBadge) {
-        return sqlResultService.noProcess(signMapper.updateSignLikeBadge(userAccount,likeBadge));
+        int value = signMapper.updateSignLikeBadge(userAccount, likeBadge);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Override
     public String updateSignTaskBadge(String userAccount, String taskBadge) {
-        return sqlResultService.noProcess(signMapper.updateSignTaskBadge(userAccount,taskBadge));
+        int value = signMapper.updateSignTaskBadge(userAccount, taskBadge);
+        if (value == SQLResultCode.SUCCEES) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 }

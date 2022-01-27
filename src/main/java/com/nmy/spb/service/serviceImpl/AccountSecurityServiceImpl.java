@@ -1,8 +1,10 @@
 package com.nmy.spb.service.serviceImpl;
 
-import com.nmy.spb.common.RequestResultCode;
+import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestEntityJson;
 import com.nmy.spb.common.SQLResultCode;
 import com.nmy.spb.domain.dto.UpdatePasswordDto;
+import com.nmy.spb.domain.dto.UserDto;
 import com.nmy.spb.domain.dto.VerifyPasswordDto;
 import com.nmy.spb.mapper.AccountSecurityMapper;
 import com.nmy.spb.mapper.UserIpMapper;
@@ -31,27 +33,42 @@ public class AccountSecurityServiceImpl implements AccountSecurityService {
 
     @Override
     public String updateUserPassword(UpdatePasswordDto updatePasswordDto) {
-        int value = accountSecurityMapper.queryUserExist(updatePasswordDto.getUser_account(), updatePasswordDto.getUser_password_old());
+        String account = updatePasswordDto.getUser_account();
+        String passwordOld = updatePasswordDto.getUser_password_old();
+        String password = updatePasswordDto.getUser_password();
+        int value = accountSecurityMapper.queryUserExist(account, passwordOld);
 
         if (value != SQLResultCode.ERROR) {
-            return sqlResultService
-                    .noProcess(accountSecurityMapper.updateUserPassword(updatePasswordDto.getUser_account(), updatePasswordDto.getUser_password()));
+            int i = accountSecurityMapper.updateUserPassword(account, password);
+            if (i != SQLResultCode.ERROR) {
+                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+            }
+            return sqlResultService.noProcess(EnumCode.SUCCESS_UPDATA_PASSWORD);
         }
 
-        return RequestResultCode.ERROR;
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 
     @Override
     public String queryVerifyAndUserFull(String userAccount) {
-        return sqlResultService.process(accountSecurityMapper.queryUserFull(userAccount));
+        UserDto userDto = accountSecurityMapper.queryUserFull(userAccount);
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userDto));
     }
 
     @Override
     public String queryVerifyUserPassword(VerifyPasswordDto verifyPasswordDto) {
-        int value = accountSecurityMapper.queryUserExist(verifyPasswordDto.getUser_account(), verifyPasswordDto.getUser_password());
+        String account = verifyPasswordDto.getUser_account();
+        String password = verifyPasswordDto.getUser_password();
+        String ip = verifyPasswordDto.getUser_ip();
+        int value = accountSecurityMapper.queryUserExist(account, password);
         if (value != SQLResultCode.ERROR) {
-            return sqlResultService.noProcess(userIpMapper.updateUserIp(verifyPasswordDto.getUser_account(), verifyPasswordDto.getUser_ip()));
+            int i = userIpMapper.updateUserIp(account, ip);
+            if (i != SQLResultCode.ERROR) {
+                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+            }
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
         }
-        return RequestResultCode.ERROR;
+
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 }

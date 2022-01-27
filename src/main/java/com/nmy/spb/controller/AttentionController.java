@@ -23,16 +23,41 @@ public class AttentionController {
     @Resource
     AttentionService attentionService;
 
+    /**
+     * @Description: Map
+     * 必要数据：user_account，topic_id，topic_name
+     * 返回：RequestJson -> 状态码
+     * @Param: [params]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 0:11
+     */
     @PostMapping("/addAttentionTopic")
     public String addAttentionTopic(@RequestParam Map<String, String> params) {
         return attentionService.addAttentionTopic(params);
     }
 
+    /**
+     * @Description: 必要数据：user_account
+     * 返回：RequestListJson -> 状态码&AttentionTopicDto
+     * @Param: [account]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 0:13
+     */
     @PostMapping("/queryAttentionTopic")
     public String queryAttentionTopic(@RequestParam(value = "user_account") String account) {
         return attentionService.queryAttentionTopic(account);
     }
 
+    /**
+     * @Description: 必要数据：topic_id，user_account
+     * 返回：RequestJson -> 状态码
+     * @Param: [id, userAccount]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 0:14
+     */
     @PostMapping("/deleteAttentionTopicById")
     public String deleteAttentionTopicById(@RequestParam(value = "topic_id") String id, @RequestParam(value = "user_account") String userAccount) {
         return attentionService.deleteAttentionTopicById(id, userAccount);

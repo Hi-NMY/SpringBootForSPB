@@ -1,9 +1,5 @@
 package com.nmy.spb.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 /**
  * @author nmy
  * @title: FollowService
@@ -15,8 +11,8 @@ public interface FollowService {
 
     String queryFollowUserList(String userAccount);
 
-    String addFollow(String cacheAccount,String userAccount);
+    String addFollow(String followAccount, String followedAccount);
 
-    String deleteFollow(String cacheAccount,String userAccount);
+    String deleteFollow(String followAccount, String followedAccount);
 
 }

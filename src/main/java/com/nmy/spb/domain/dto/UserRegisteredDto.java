@@ -13,5 +13,6 @@ public class UserRegisteredDto {
     private String user_account;
     private String user_password;
     private String user_name;
+    private String user_token;
 
 }

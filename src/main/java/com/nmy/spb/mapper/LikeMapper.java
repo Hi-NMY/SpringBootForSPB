@@ -16,14 +16,15 @@ import java.util.List;
 public interface LikeMapper {
 
     @Select("SELECT id,pb_one_id " +
-            "FROM ${dname}")
-    List<Like> queryLike(@Param("dname")String dname);
+            "FROM likepb " +
+            "WHERE user_account = #{user_account}")
+    List<Like> queryLike(@Param("user_account") String userAccount);
 
-    @Insert("INSERT INTO ${dname}(pb_one_id) " +
-            "values(#{pb_one_id})")
-    int addLike(@Param("dname")String dname,@Param("pb_one_id")String pbId);
+    @Insert("INSERT INTO likepb(user_account,pb_one_id) " +
+            "values(#{user_account},#{pb_one_id})")
+    int addLike(@Param("user_account") String userAccount, @Param("pb_one_id") String pbId);
 
-    @Delete("DELETE FROM ${dname} " +
-            "where pb_one_id = #{pb_one_id}")
-    int deleteLike(@Param("dname")String dname,@Param("pb_one_id")String pbId);
+    @Delete("DELETE FROM likepb " +
+            "WHERE user_account = #{user_account} AND pb_one_id = #{pb_one_id}")
+    int deleteLike(@Param("user_account") String userAccount, @Param("pb_one_id") String pbId);
 }

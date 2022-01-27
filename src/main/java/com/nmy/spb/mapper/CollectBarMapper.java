@@ -23,9 +23,9 @@ public interface CollectBarMapper {
 
     @Insert("INSERT INTO ${dname}(user_account,pb_one_id) " +
             "values(#{cache_Account},#{pb_one_id}")
-    int addCollectBar(@Param("dname") String dname,@Param("cache_Account") String cacheAccount,@Param("pb_one_id") String pbId);
+    int addCollectBar(@Param("dname") String dname, @Param("cache_Account") String cacheAccount, @Param("pb_one_id") String pbId);
 
     @Delete("DELETE FROM ${dname} " +
             "where user_account = '{$cache_account}' AND pb_one_id = '{$pb_one_id}'")
-    int deleteCollectBar(@Param("dname") String dname,@Param("cache_Account") String cacheAccount,@Param("pb_one_id") String pbId);
+    int deleteCollectBar(@Param("dname") String dname, @Param("cache_Account") String cacheAccount, @Param("pb_one_id") String pbId);
 }

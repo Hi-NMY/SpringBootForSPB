@@ -1,6 +1,7 @@
 package com.nmy.spb.utils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author nmy
@@ -9,8 +10,12 @@ import java.time.LocalDateTime;
  */
 public class DateTool {
 
-    public static String obtainNowDateTime(){
-        return LocalDateTime.now().toString();
+    public static String obtainNowDateTime() {
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        return dateTimeFormatter.format(dateTime);
     }
 
 }

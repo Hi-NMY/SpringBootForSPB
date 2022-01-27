@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class Diary {
 
     public int id;
+    public String user_account;
     public String dia_date;
     public int dia_weather;
     public String dia_message;

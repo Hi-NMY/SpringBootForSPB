@@ -3,6 +3,7 @@ package com.nmy.spb.domain.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 /**
  * @author nmy
  * @title: CollectBarDto

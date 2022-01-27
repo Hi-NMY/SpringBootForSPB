@@ -1,7 +1,6 @@
 package com.nmy.spb.mapper;
 
 import com.nmy.spb.domain.pojo.Sign;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -36,26 +35,26 @@ public interface SignMapper {
     @Update("UPDATE user_sign " +
             "set sign_right = 0,sign_day = #{sign_day},sign_coin = sign_coin + #{coin} " +
             "where user_account = #{user_account}")
-    int updateSignDayAndRightAndCoin(@Param("user_account") String userAccount,@Param("sign_day") String signDay,@Param("coin") int coin);
+    int updateSignDayAndRightAndCoin(@Param("user_account") String userAccount, @Param("sign_day") String signDay, @Param("coin") int coin);
 
     @Update("UPDATE user_sign " +
             "set sign_coin = sign_coin + #{coin} " +
             "where user_account = #{user_account}")
-    int updateSignCoin(@Param("user_account") String userAccount,@Param("coin") int coin);
+    int updateSignCoin(@Param("user_account") String userAccount, @Param("coin") int coin);
 
     @Update("UPDATE user_sign " +
             "set sign_star_badge = #{sign_star_badge} " +
             "where user_account = #{user_account}")
-    int updateSignStarBadge(@Param("user_account") String userAccount,@Param("sign_star_badge") String starBadge);
+    int updateSignStarBadge(@Param("user_account") String userAccount, @Param("sign_star_badge") String starBadge);
 
     @Update("UPDATE user_sign " +
             "set sign_like_badge = #{sign_like_badge} " +
             "where user_account = #{user_account}")
-    int updateSignLikeBadge(@Param("user_account") String userAccount,@Param("sign_like_badge") String likeBadge);
+    int updateSignLikeBadge(@Param("user_account") String userAccount, @Param("sign_like_badge") String likeBadge);
 
     @Update("UPDATE user_sign " +
             "set sign_task_badge = #{sign_tesk_badge} " +
             "where user_account = #{user_account}")
-    int updateSignTaskBadge(@Param("user_account") String userAccount,@Param("sign_tesk_badge") String taskBadge);
+    int updateSignTaskBadge(@Param("user_account") String userAccount, @Param("sign_tesk_badge") String taskBadge);
 
 }

@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 public class Like {
 
     public int id;
+    public String user_account;
     public String pb_one_id;
 }
