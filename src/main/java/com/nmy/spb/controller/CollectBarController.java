@@ -5,5 +5,5 @@ package com.nmy.spb.controller;
  * @title: CollectBarController
  * @date 2022-01-27 11:49
  */
-public class CollectBarController {
+public class CollectBarController  {
 }
