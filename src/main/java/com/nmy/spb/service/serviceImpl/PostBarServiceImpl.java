@@ -173,7 +173,7 @@ public class PostBarServiceImpl implements PostBarService {
                 ai = topicMapper.updateIncreaseBarNum(strings);
             }
             if (sqlResultService.transactionalProcess(value, ai)) {
-                return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, bar));
+                return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_BAR, bar));
             } else {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);

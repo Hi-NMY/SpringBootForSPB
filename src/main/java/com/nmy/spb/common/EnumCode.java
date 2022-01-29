@@ -40,7 +40,11 @@ public enum EnumCode {
     SUCCESS_DELETE_DIARY(200, "已删除"),
 
 
-    SUCCESS_DELETE_BAR(200, "已删除");
+    SUCCESS_DELETE_BAR(200, "已删除"),
+    SUCCESS_BAR(200, "已发布"),
+
+
+    SUCCESS_USER_INFORMATION(200, "已修改"),;
 
 
     private int code;
