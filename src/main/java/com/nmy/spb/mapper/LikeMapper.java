@@ -21,7 +21,10 @@ public interface LikeMapper {
     List<Like> queryLike(@Param("user_account") String userAccount);
 
     @Insert("INSERT INTO likepb(user_account,pb_one_id) " +
-            "values(#{user_account},#{pb_one_id})")
+            "select (#{user_account},#{pb_one_id}) " +
+            "from dual " +
+            "WHERE NOT EXISTS " +
+            "(SELECT id FROM likepb WHERE user_account = #{user_account} AND pb_one_id = #{pb_one_id})")
     int addLike(@Param("user_account") String userAccount, @Param("pb_one_id") String pbId);
 
     @Delete("DELETE FROM likepb " +

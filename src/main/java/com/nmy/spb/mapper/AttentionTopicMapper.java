@@ -17,7 +17,10 @@ import java.util.List;
 public interface AttentionTopicMapper {
 
     @Insert("INSERT INTO attentiontopic(user_account,topic_id,topic_name,topic_date) " +
-            "values (#{user_account},#{topic_id},#{topic_name},#{topic_date})")
+            "select #{user_account},#{topic_id},#{topic_name},#{topic_date} " +
+            "from dual " +
+            "WHERE NOT EXISTS " +
+            "(SELECT id FROM attentiontopic WHERE user_account = #{user_account} AND topic_id = #{topic_id})")
     int addAttentionTopic(@Param("user_account") String userAccount, @Param("topic_id") String id, @Param("topic_name") String name, @Param("topic_date") String date);
 
     @Select("SELECT topic.id,attentiontopic.topic_date,topic.topic_name,topic.topic_barnum,topic.topic_attentionnum,topic.topic_slogan,topic.topic_image " +
