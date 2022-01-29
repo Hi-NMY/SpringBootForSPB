@@ -2,6 +2,7 @@ package com.nmy.spb.controller;
 
 import com.nmy.spb.domain.dto.UserRegisteredDto;
 import com.nmy.spb.service.UserRegisteredService;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

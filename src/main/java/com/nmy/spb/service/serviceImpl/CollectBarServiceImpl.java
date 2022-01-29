@@ -58,11 +58,11 @@ public class CollectBarServiceImpl implements CollectBarService {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         if (DataVerificationTool.isEmpty(cacheAccount)){
-            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+            return sqlResultService.noProcess(EnumCode.SUCCESS_COLLECT);
         }
 
         String userIp = userIpMapper.queryUserIp(cacheAccount);
-        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userIp));
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_COLLECT, userIp));
     }
 
     @Override

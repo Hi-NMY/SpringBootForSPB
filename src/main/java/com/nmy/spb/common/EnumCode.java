@@ -10,7 +10,9 @@ public enum EnumCode {
     SUCCESS_DEFAULT(200, ""),
     ERROR_DEFAULT(4004, "错误，请重试"),
 
+
     SUCCESS_COLLECT(200, "已收藏"),
+
 
     SUCCESS_ADD_ATTENTONTOPIC(200, "已关注话题"),
     SUCCESS_DELETE_ATTENTONTOPIC(200, "取消关注"),
@@ -36,7 +38,9 @@ public enum EnumCode {
 
     SUCCESS_DIARY(200, "已发布"),
     SUCCESS_DELETE_DIARY(200, "已删除"),
-    ;
+
+
+    SUCCESS_DELETE_BAR(200, "已删除");
 
 
     private int code;

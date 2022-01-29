@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nmy.spb.mapper.TopicMapper">
+    <insert id="updateIncreaseBarNum">
+        INSERT INTO topic (topic_name,topic_barnum,topic_attentionnum,topic_slogan,topic_image)
+        VALUES
+        <foreach collection="list" item="a" separator="," nullable="false">
+            (#{a},1,0,'','')
+        </foreach>
+        ON DUPLICATE KEY UPDATE topic_barnum=topic_barnum+1;
+    </insert>
+</mapper>
