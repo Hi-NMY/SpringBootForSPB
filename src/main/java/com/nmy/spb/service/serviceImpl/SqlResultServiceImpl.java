@@ -3,7 +3,7 @@ package com.nmy.spb.service.serviceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nmy.spb.common.EnumCode;
-import com.nmy.spb.common.RequestJson;
+import com.nmy.spb.common.RequestCode;
 import com.nmy.spb.common.SQLResultCode;
 import com.nmy.spb.service.SqlResultService;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class SqlResultServiceImpl implements SqlResultService {
         }
         String jsonString = null;
         try {
-            jsonString = objectMapper.writeValueAsString(new RequestJson(code));
+            jsonString = objectMapper.writeValueAsString(new RequestCode(code.getCode(),code.getMessage()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

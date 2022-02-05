@@ -1,5 +1,6 @@
 package com.nmy.spb.mapper;
 
+import com.nmy.spb.domain.dto.UserBadgeDto;
 import com.nmy.spb.domain.pojo.Sign;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,6 +17,11 @@ public interface SignMapper {
             "FROM user_sign " +
             "WHERE user_account = #{user_account}")
     Sign queryUserSign(@Param("user_account") String userAccount);
+
+    @Select("SELECT sign_star_badge,sign_task_badge,sign_like_badge,sign_ct_badge " +
+            "FROM user_sign " +
+            "WHERE user_account = #{user_account}")
+    UserBadgeDto queryUserBadge(@Param("user_account") String userAccount);
 
     @Update("UPDATE user_sign " +
             "set sign_day = '' " +

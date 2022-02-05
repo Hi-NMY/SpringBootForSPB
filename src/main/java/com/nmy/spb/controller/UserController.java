@@ -51,7 +51,7 @@ public class UserController {
 
     /**
      * @Description: 必要数据：UserInformationDto -> 全部
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [info]
      * @return: java.lang.String
      * @Author: nmy
@@ -64,7 +64,7 @@ public class UserController {
 
     /**
      * @Description: 必要数据：user_account   file
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [file, userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -77,7 +77,7 @@ public class UserController {
 
     /**
      * @Description: 必要数据：user_account   file
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [file, userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -90,7 +90,7 @@ public class UserController {
 
     /**
      * @Description: 必要数据：user_account,user_badge
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userBadge, userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -103,7 +103,7 @@ public class UserController {
 
     /**
      * @Description: 必要数据：user_account,user_privacy
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userPrivacy, userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -116,7 +116,7 @@ public class UserController {
 
     /**
      * @Description: 必要数据：user_account
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy

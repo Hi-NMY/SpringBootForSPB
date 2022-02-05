@@ -3,6 +3,7 @@ package com.nmy.spb.service.serviceImpl;
 import com.nmy.spb.common.EnumCode;
 import com.nmy.spb.common.RequestEntityJson;
 import com.nmy.spb.common.SQLResultCode;
+import com.nmy.spb.domain.dto.UserBadgeDto;
 import com.nmy.spb.domain.pojo.Sign;
 import com.nmy.spb.mapper.SignMapper;
 import com.nmy.spb.mapper.UserMapper;
@@ -35,6 +36,12 @@ public class SignServiceImpl implements SignService {
     public String queryUserSign(String userAccount) {
         Sign sign = signMapper.queryUserSign(userAccount);
         return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, sign));
+    }
+
+    @Override
+    public String queryUserBadge(String userAccount) {
+        UserBadgeDto userBadgeDto = signMapper.queryUserBadge(userAccount);
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userBadgeDto));
     }
 
     @Override

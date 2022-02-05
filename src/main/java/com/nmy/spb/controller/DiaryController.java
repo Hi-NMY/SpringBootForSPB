@@ -38,7 +38,7 @@ public class DiaryController {
 
     /**
      * @Description: 必要数据：Diary -> user_account,dia_date,dia_weather,dia_message    file
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [diary, file]
      * @return: java.lang.String
      * @Author: nmy
@@ -51,7 +51,7 @@ public class DiaryController {
 
     /**
      * @Description: 必要数据：user_account,id
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount, id]
      * @return: java.lang.String
      * @Author: nmy

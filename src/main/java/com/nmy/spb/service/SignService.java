@@ -9,6 +9,8 @@ public interface SignService {
 
     String queryUserSign(String userAccount);
 
+    String queryUserBadge(String userAccount);
+
     String updateSignDay(String userAccount);
 
     String updateSignRight(String userAccount);

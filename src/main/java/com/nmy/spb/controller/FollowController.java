@@ -64,7 +64,7 @@ public class FollowController {
 
     /**
      * @Description: 必要数据：follow_account,followed_account
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [followAccount, followedAccount]
      * @return: java.lang.String
      * @Author: nmy

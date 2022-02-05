@@ -25,7 +25,7 @@ public class AccountSecurityController {
 
     /**
      * @Description: 必要数据：UpdatePasswordDto -> user_account,user_password_old,user_password
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [updatePasswordDto]
      * @return: java.lang.String
      * @Author: nmy
@@ -52,7 +52,7 @@ public class AccountSecurityController {
 
     /**
      * @Description: 必要数据：VerifyPasswordDto -> user_account,user_ip,user_password
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [verifyPasswordDto]
      * @return: java.lang.String
      * @Author: nmy

@@ -24,11 +24,4 @@ public class RequestListJson<T> {
         this.dataList = data;
         resultCode = new RequestCode(e.getCode(), e.getMessage());
     }
-
-    @Data
-    @AllArgsConstructor
-    static class RequestCode {
-        private int code;
-        private String messgae;
-    }
 }

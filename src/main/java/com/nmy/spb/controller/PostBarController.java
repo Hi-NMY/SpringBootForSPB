@@ -191,7 +191,7 @@ public class PostBarController {
 
     /**
      * @Description: 必要数据：pb_one_id
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [pbid]
      * @return: java.lang.String
      * @Author: nmy

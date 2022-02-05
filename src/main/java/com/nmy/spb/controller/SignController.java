@@ -1,5 +1,8 @@
 package com.nmy.spb.controller;
 
+import com.nmy.spb.common.EnumCode;
+import com.nmy.spb.common.RequestEntityJson;
+import com.nmy.spb.domain.dto.UserBadgeDto;
 import com.nmy.spb.service.SignService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +39,20 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestEntityJson -> 状态码&UserBadgeDto
+     * @Param: [userAccount]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-30 18:24
+     */
+    @RequestMapping("/queryUserBadge")
+    public String queryUserBadge(@RequestParam("user_account") String userAccount) {
+        return signService.queryUserBadge(userAccount);
+    }
+
+    /**
+     * @Description: 必要数据：user_account
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -49,7 +65,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -62,7 +78,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -75,7 +91,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account,sign_day,coin
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -88,7 +104,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account,coin
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -101,7 +117,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account,sign_star_badge
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -114,7 +130,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account,sign_like_badge
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
@@ -127,7 +143,7 @@ public class SignController {
 
     /**
      * @Description: 必要数据：user_account,sign_tesk_badge
-     * 返回：RequestJson -> 状态码
+     * 返回：RequestCode -> 状态码
      * @Param: [userAccount]
      * @return: java.lang.String
      * @Author: nmy
