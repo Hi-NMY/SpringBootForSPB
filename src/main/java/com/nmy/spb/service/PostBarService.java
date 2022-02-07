@@ -1,6 +1,5 @@
 package com.nmy.spb.service;
 
-import com.nmy.spb.domain.dto.BarDto;
 import com.nmy.spb.domain.pojo.Bar;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +38,8 @@ public interface PostBarService {
 
     String deleteBar(String pbid);
 
-    String addBar(Bar bar, List<MultipartFile> image, MultipartFile voice, MultipartFile video);
+    String addBar(Bar bar, List<MultipartFile> image, MultipartFile voice);
+
+    String addBarVideo(Bar bar, MultipartFile video, MultipartFile videoImg);
 
 }

@@ -11,6 +11,9 @@ public enum EnumCode {
     ERROR_DEFAULT(4004, "错误，请重试"),
 
 
+    ERROR_VERSION(4004, "已是最新版本"),
+
+
     SUCCESS_COLLECT(200, "已收藏"),
 
 

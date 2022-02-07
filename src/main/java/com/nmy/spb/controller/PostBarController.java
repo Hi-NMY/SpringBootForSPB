@@ -214,7 +214,13 @@ public class PostBarController {
      */
     @RequestMapping("/addBar")
     public String addBar(Bar bar, @Nullable @RequestParam("image_file") List<MultipartFile> image
-            , @Nullable @RequestParam("voice_file") MultipartFile voice,@Nullable @RequestParam("video_file") MultipartFile video) {
-        return postBarService.addBar(bar, image, voice,video);
+            , @Nullable @RequestParam("voice_file") MultipartFile voice) {
+        return postBarService.addBar(bar, image, voice);
+    }
+
+    @RequestMapping("/addBarVideo")
+    public String addBarVideo(Bar bar, @Nullable @RequestParam("video_file") MultipartFile video
+            , @Nullable @RequestParam("video_image_file") MultipartFile videoImg) {
+        return postBarService.addBarVideo(bar, video, videoImg);
     }
 }

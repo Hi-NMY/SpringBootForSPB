@@ -137,7 +137,7 @@ public class PostBarServiceImpl implements PostBarService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public String addBar(Bar bar, List<MultipartFile> image, MultipartFile voice, MultipartFile video) {
+    public String addBar(Bar bar, List<MultipartFile> image, MultipartFile voice) {
         if (image != null && image.size() > 0) {
             String postBarImageUrl = FileUpload.getPostBarImageUrl(image, bar.getUser_account());
             if (postBarImageUrl == null) {
@@ -153,18 +153,24 @@ public class PostBarServiceImpl implements PostBarService {
             }
             bar.setPb_voice(postBarVoiceUrl);
         }
+        return add(bar);
+    }
 
+    @Override
+    public String addBarVideo(Bar bar, MultipartFile video, MultipartFile videoImg) {
         if (video != null){
-            String postBarVideoUrl = FileUpload.getPostBarVideoUrl(video, bar.getUser_account());
+            String postBarVideoUrl = FileUpload.getPostBarVideoUrl(video, videoImg, bar.getUser_account());
             if (postBarVideoUrl == null) {
                 return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
             }
             bar.setPb_video(postBarVideoUrl);
         }
+        return add(bar);
+    }
 
+    private String add(Bar bar){
         bar.setPb_date(DateTool.obtainNowDateTime());
         bar.setPb_one_id(FileUpload.toStringMD5(DateTool.obtainNowDateTime() + bar.getUser_account()) + bar.getUser_account());
-
         try {
             int value = postBarMapper.addBar(bar);
             int ai = SQLResultCode.SUCCEES;

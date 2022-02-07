@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateUserToken(String userAccount, String token) {
-        int value = userIpMapper.updateUserIp(userAccount, token);
+        int value = userIpMapper.updateUserToken(userAccount, token);
         if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }

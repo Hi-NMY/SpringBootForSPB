@@ -36,9 +36,6 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
     InitTableMapper initTableMapper;
 
     @Resource
-    UserIpMapper userIpMapper;
-
-    @Resource
     SqlResultService sqlResultService;
 
     @Transactional(rollbackFor = Exception.class)
@@ -47,8 +44,7 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
         String account = userRegisteredDto.getUser_account();
         String password = userRegisteredDto.getUser_password();
         String userName = userRegisteredDto.getUser_name();
-        String userToken = userRegisteredDto.getUser_token();
-        if (DataVerificationTool.isEmpty(account, password, userName, userToken)) {
+        if (DataVerificationTool.isEmpty(account, password, userName)) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         if (accountSecurityMapper.queryVerifyStu(account) == SQLResultCode.ERROR) {
@@ -65,8 +61,7 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
             int bi = initTableMapper.addUserRegistered(account, userName,
                     FileUpload.PREFIX_LOCAL + account + FileUpload.HEAD_IMAGE_PATH + FileUpload.HEAD_IMAGE_NAME);
             int ci = initTableMapper.addUsersRegistered(account, password);
-            int di = userIpMapper.updateUserToken(account, userToken);
-            if (sqlResultService.transactionalProcess(ai, bi, ci, di)) {
+            if (sqlResultService.transactionalProcess(ai, bi, ci)) {
                 if (!createFolder(account)) {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);

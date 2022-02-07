@@ -144,15 +144,18 @@ public class FileUpload {
         }
     }
 
-    public static String getPostBarVideoUrl(MultipartFile f, String account) {
+    public static String getPostBarVideoUrl(MultipartFile video,MultipartFile img, String account) {
         try {
-            if (isNotVideoType(f.getContentType())){
+            if (isNotVideoType(video.getContentType())){
+                return null;
+            }
+            if (isNotImageType(img.getContentType())){
                 return null;
             }
 
-            String fileName = toStringMD5(DateTool.obtainNowDateTime()) + f.getOriginalFilename();
-
-            f.transferTo(new File(PREFIX + account + POSTBAR_VIDEO_PATH + fileName));
+            String fileName = toStringMD5(DateTool.obtainNowDateTime()) + video.getOriginalFilename();
+            img.transferTo(new File(PREFIX + account + POSTBAR_VIDEO_PATH + fileName + PNG_SUFFIX));
+            video.transferTo(new File(PREFIX + account + POSTBAR_VIDEO_PATH + fileName));
             return PREFIX_LOCAL + account + POSTBAR_VIDEO_PATH + fileName;
         }catch (Exception e) {
             e.printStackTrace();
