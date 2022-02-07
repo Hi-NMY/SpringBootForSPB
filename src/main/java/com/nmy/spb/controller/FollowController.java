@@ -37,6 +37,32 @@ public class FollowController {
 
     /**
      * @Description: 必要数据：user_account
+     * 返回：RequestEntityJson -> 状态码&String(count)
+     * @Param: [userAccount]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 11:31
+     */
+    @PostMapping("/queryFollowCount")
+    public String queryFollowCount(@RequestParam("user_account") String userAccount) {
+        return followService.queryFollowCount(userAccount);
+    }
+
+    /**
+     * @Description: 必要数据：user_account
+     * 返回：RequestEntityJson -> 状态码&String(count)
+     * @Param: [userAccount]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-01-26 11:31
+     */
+    @PostMapping("/queryFollowedCount")
+    public String queryFollowedCount(@RequestParam("user_account") String userAccount) {
+        return followService.queryFollowedCount(userAccount);
+    }
+
+    /**
+     * @Description: 必要数据：user_account
      * 返回：RequestListJson -> 状态码&FollowUserDto
      * @Param: [userAccount]
      * @return: java.lang.String

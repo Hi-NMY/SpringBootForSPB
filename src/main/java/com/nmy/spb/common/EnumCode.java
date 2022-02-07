@@ -20,6 +20,7 @@ public enum EnumCode {
 
     SUCCESS_COMMENT(200, "已评论"),
     SUCCESS_DELETE_COMMENT(200, "删除评论"),
+    ERROR_COMMENT_ONE(4004, "该评论已被删除"),
 
 
     SUCCESS_FOLLOW(200, "已关注"),

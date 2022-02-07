@@ -9,6 +9,10 @@ public interface FollowService {
 
     String queryFollowList(String userAccount);
 
+    String queryFollowCount(String userAccount);
+
+    String queryFollowedCount(String userAccount);
+
     String queryFollowUserList(String userAccount);
 
     String addFollow(String followAccount, String followedAccount);

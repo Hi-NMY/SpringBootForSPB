@@ -77,6 +77,9 @@ public class CommentServiceImpl implements CommentService {
         }
 
         CommentDto commentDto = commentMapper.queryCommentOne(pbId, commentId);
+        if (commentDto == null){
+            return sqlResultService.noProcess(EnumCode.ERROR_COMMENT_ONE);
+        }
         return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, commentDto));
     }
 

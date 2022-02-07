@@ -63,6 +63,32 @@ public class UserController {
     }
 
     /**
+     * @Description: 必要数据：user_account,ip
+     * 返回：RequestCode -> 状态码
+     * @Param: [userAccount, ip]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-02-05 19:48
+     */
+    @RequestMapping("/updateUserIp")
+    public String updateUserIp(@RequestParam("user_account") String userAccount, @RequestParam("ip") String ip) {
+        return userService.updateUserIp(userAccount, ip);
+    }
+
+    /**
+     * @Description: 必要数据：user_account,token
+     * 返回：RequestCode -> 状态码
+     * @Param: [userAccount, token]
+     * @return: java.lang.String
+     * @Author: nmy
+     * @Date: 2022-02-05 19:48
+     */
+    @RequestMapping("/updateUserIp")
+    public String updateUserToken(@RequestParam("user_account") String userAccount, @RequestParam("token") String token) {
+        return userService.updateUserToken(userAccount, token);
+    }
+
+    /**
      * @Description: 必要数据：user_account   file
      * 返回：RequestCode -> 状态码
      * @Param: [file, userAccount]

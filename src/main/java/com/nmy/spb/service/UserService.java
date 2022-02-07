@@ -1,7 +1,6 @@
 package com.nmy.spb.service;
 
 import com.nmy.spb.domain.dto.UserInformationDto;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -16,6 +15,10 @@ public interface UserService {
     String querySearchUser(String search);
 
     String updateUserPersonalInformation(UserInformationDto info);
+
+    String updateUserIp(String userAccount, String ip);
+
+    String updateUserToken(String userAccount, String token);
 
     String updateUserHeadImage(MultipartFile file, String userAccount);
 

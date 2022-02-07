@@ -13,5 +13,5 @@ public class UserBadgeDto {
     private String sign_star_badge;
     private String sign_task_badge;
     private String sign_like_badge;
-    private String sign_ct_badge;
+    private int sign_ct_badge;
 }

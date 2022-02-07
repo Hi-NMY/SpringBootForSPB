@@ -6,6 +6,7 @@ import com.nmy.spb.common.SQLResultCode;
 import com.nmy.spb.domain.dto.SearchUserDto;
 import com.nmy.spb.domain.dto.UserInformationDto;
 import com.nmy.spb.domain.pojo.SchoolTable;
+import com.nmy.spb.mapper.UserIpMapper;
 import com.nmy.spb.mapper.UserMapper;
 import com.nmy.spb.service.SqlResultService;
 import com.nmy.spb.service.UserService;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Resource
+    UserIpMapper userIpMapper;
+
+    @Resource
     SqlResultService sqlResultService;
 
     @Override
@@ -39,13 +43,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public String querySearchUser(String search) {
         List<SearchUserDto> searchUserDtos = userMapper.querySearchUser(search);
-        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT,searchUserDtos));
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, searchUserDtos));
     }
 
     @Override
     public String updateUserPersonalInformation(UserInformationDto info) {
         int value = userMapper.updateUserPersonalInformation(info);
-        if (value == SQLResultCode.ERROR){
+        if (value == SQLResultCode.ERROR) {
+            return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.SUCCESS_USER_INFORMATION);
+    }
+
+    @Override
+    public String updateUserIp(String userAccount, String ip) {
+        int value = userIpMapper.updateUserIp(userAccount, ip);
+        if (value == SQLResultCode.ERROR) {
+            return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+        }
+        return sqlResultService.noProcess(EnumCode.SUCCESS_USER_INFORMATION);
+    }
+
+    @Override
+    public String updateUserToken(String userAccount, String token) {
+        int value = userIpMapper.updateUserIp(userAccount, token);
+        if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         return sqlResultService.noProcess(EnumCode.SUCCESS_USER_INFORMATION);
@@ -55,7 +77,7 @@ public class UserServiceImpl implements UserService {
     public String updateUserHeadImage(MultipartFile file, String userAccount) {
         String oneImageUrl = FileUpload.getOneImageUrl(file, userAccount, FileUpload.HEAD_IMAGE_PATH);
         int value = userMapper.updateUserHeadImage(oneImageUrl, userAccount);
-        if (value == SQLResultCode.ERROR){
+        if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
@@ -65,7 +87,7 @@ public class UserServiceImpl implements UserService {
     public String updateUserBgImage(MultipartFile file, String userAccount) {
         String oneImageUrl = FileUpload.getOneImageUrl(file, userAccount, FileUpload.BG_IMAGE_PATH);
         int value = userMapper.updateUserHeadImage(oneImageUrl, userAccount);
-        if (value == SQLResultCode.ERROR){
+        if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
@@ -74,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateUserBadgeImage(String userBadge, String userAccount) {
         int value = userMapper.updateUserBadgeImage(userBadge, userAccount);
-        if (value == SQLResultCode.ERROR){
+        if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
@@ -83,7 +105,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateUserPrivacy(String userPrivacy, String userAccount) {
         int value = userMapper.updateUserPrivacy(userPrivacy, userAccount);
-        if (value == SQLResultCode.ERROR){
+        if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         return sqlResultService.noProcess(EnumCode.SUCCESS_USER_INFORMATION);
@@ -92,7 +114,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String deleteUserIp(String userAccount) {
         int value = userMapper.deleteUserIp(userAccount);
-        if (value == SQLResultCode.ERROR){
+        if (value == SQLResultCode.ERROR) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);

@@ -40,6 +40,18 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public String queryFollowCount(String userAccount) {
+        String value = followMapper.queryFollowCount(userAccount);
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, value));
+    }
+
+    @Override
+    public String queryFollowedCount(String userAccount) {
+        String value = followMapper.queryFollowedCount(userAccount);
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, value));
+    }
+
+    @Override
     public String queryFollowUserList(String userAccount) {
         List<FollowUserDto> followUserDtos = followMapper.queryFollowUserList(userAccount);
         return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, followUserDtos));
