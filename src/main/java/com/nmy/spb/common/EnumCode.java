@@ -30,6 +30,7 @@ public enum EnumCode {
     SUCCESS_DELETE_FOLLOW(200, "取消关注"),
 
 
+    ERROR_LogIn(4004, "该账号未注册"),
     SUCCESS_REGISTER(200, "注册成功"),
     ERROR_STU_ISNOT(4004, "您非本校学生"),
     ERROR_REGISTERED(4004, "该账号已注册"),

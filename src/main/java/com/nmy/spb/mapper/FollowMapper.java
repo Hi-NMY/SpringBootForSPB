@@ -22,7 +22,7 @@ public interface FollowMapper {
             "ORDER BY id DESC")
     List<String> queryFollowList(@Param("follow_account") String account);
 
-    @Select("SELECT SQL_CALC_FOUND_ROWS id " +
+    @Select("SELECT IFNULL(count(id),0) " +
             "FROM follow " +
             "WHERE follow_account = #{follow_account}")
     String queryFollowCount(@Param("follow_account") String account);
@@ -52,10 +52,10 @@ public interface FollowMapper {
             "ORDER BY id DESC")
     List<String> queryFollowedList(@Param("followed_account") String account);
 
-    @Select("SELECT SQL_CALC_FOUND_ROWS id " +
+    @Select("SELECT IFNULL(count(id),0) " +
             "FROM follow " +
             "WHERE followed_account = #{followed_account}")
-    String queryFollowedCount(@Param("followed_account") String account);
+    int queryFollowedCount(@Param("followed_account") String account);
 
     @Select("SELECT follow.id,user.user_account,user.user_name,user.user_badge,students.stu_sex " +
             "FROM (follow left join user on follow.follow_account = user.user_account) " +

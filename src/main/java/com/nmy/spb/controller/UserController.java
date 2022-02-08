@@ -83,7 +83,7 @@ public class UserController {
      * @Author: nmy
      * @Date: 2022-02-05 19:48
      */
-    @RequestMapping("/updateUserIp")
+    @RequestMapping("/updateUserToken")
     public String updateUserToken(@RequestParam("user_account") String userAccount, @RequestParam("token") String token) {
         return userService.updateUserToken(userAccount, token);
     }

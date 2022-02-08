@@ -79,7 +79,7 @@ public interface PostBarMapper {
             "WHERE postbarlist.pb_one_id = #{pb_one_id}")
     BarDto queryBarDetatilForPbid(@Param("pb_one_id") String pbid);
 
-    @Select("SELECT SUM(pb_thumb_num) " +
+    @Select("SELECT IFNULL(SUM(pb_thumb_num),0) " +
             "from postbarlist " +
             "WHERE user_account = #{user_account}")
     int queryUserBarLikeCount(@Param("user_account") String userAccount);
@@ -115,7 +115,7 @@ public interface PostBarMapper {
     List<BarDto> queryVideoTopicBarListForDate(@Param("pb_date") String pbDate, @Param("topic_name") String topicName);
 
     @Select("SELECT user.user_account,user.user_name,user.user_badge,postbarlist.pb_one_id,postbarlist.pb_date " +
-            ",postbarlist.pb_article,postbarlist.pb_image_url,postbarlist.pb_voice,postbarlist.pb_topic " +
+            ",postbarlist.pb_article,postbarlist.pb_video,postbarlist.pb_topic " +
             ",postbarlist.pb_location,postbarlist.pb_thumb_num,postbarlist.pb_comment_num " +
             "from postbarlist " +
             "left join user " +

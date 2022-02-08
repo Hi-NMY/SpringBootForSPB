@@ -32,7 +32,7 @@ public class AppVersionController {
     public String isVerison(@RequestParam("versionCode") String versionCode) {
         AppVersionDto version = appVersionMapper.isVersion(versionCode);
         if (version.getVersionCode() == Integer.parseInt(versionCode)) {
-            return sqlResultService.noProcess(EnumCode.ERROR_VERSION);
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_VERSION, null));
         }
         return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, version));
     }

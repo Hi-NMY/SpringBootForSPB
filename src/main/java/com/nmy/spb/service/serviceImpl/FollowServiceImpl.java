@@ -47,7 +47,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public String queryFollowedCount(String userAccount) {
-        String value = followMapper.queryFollowedCount(userAccount);
+        int value = followMapper.queryFollowedCount(userAccount);
         return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, value));
     }
 

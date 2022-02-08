@@ -52,6 +52,9 @@ public class AccountSecurityServiceImpl implements AccountSecurityService {
     @Override
     public String queryVerifyAndUserFull(String userAccount) {
         UserDto userDto = accountSecurityMapper.queryUserFull(userAccount);
+        if (userDto == null){
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_LogIn, null));
+        }
         return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userDto));
     }
 
@@ -63,7 +66,7 @@ public class AccountSecurityServiceImpl implements AccountSecurityService {
         int value = accountSecurityMapper.queryUserExist(account, password);
         if (value != SQLResultCode.ERROR) {
             int i = userIpMapper.updateUserIp(account, ip);
-            if (i != SQLResultCode.ERROR) {
+            if (i == SQLResultCode.ERROR) {
                 return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
             }
             return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);

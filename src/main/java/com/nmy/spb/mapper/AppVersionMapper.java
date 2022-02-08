@@ -11,8 +11,8 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface AppVersionMapper {
 
-    @Select("SELECT versionCode,versionName,detailed" +
-            "FROM app_version" +
+    @Select("SELECT versionCode,versionName,detailed " +
+            "FROM app_version " +
             "WHERE id = 1")
     AppVersionDto isVersion(@Param("versionCode") String versionCode);
 

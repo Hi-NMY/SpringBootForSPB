@@ -15,7 +15,7 @@ public interface UserIpMapper {
     String queryUserIp(@Param("cache_account") String cacheAccount);
 
     @Update("UPDATE user " +
-            "SET user_ip = #{userIp} " +
+            "SET user_ip = #{user_ip} " +
             "WHERE user_account = #{user_account}")
     int updateUserIp(@Param("user_account") String userAccount, @Param("user_ip") String userIp);
 
