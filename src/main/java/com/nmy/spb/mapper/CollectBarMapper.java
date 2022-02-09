@@ -30,10 +30,10 @@ public interface CollectBarMapper {
     List<BarDto> queryCollectBarFullList(@Param("user_account") String userAccount);
 
     @Insert("INSERT INTO collectbar(user_account,pb_one_id) " +
-            "select (#{user_account},#{pb_one_id}) " +
+            "select #{user_account},#{pb_one_id} " +
             "from dual " +
             "WHERE NOT EXISTS " +
-            "(SELECT id FROM collectbar WHERE user_account = #{user_account} AND pb_one_id = #{pb_one_id})")
+            "(SELECT user_account,pb_one_id FROM collectbar WHERE user_account = #{user_account} AND pb_one_id = #{pb_one_id})")
     int addCollectBar(@Param("user_account") String userAccount, @Param("pb_one_id") String pbId);
 
     @Delete("DELETE FROM collectbar " +

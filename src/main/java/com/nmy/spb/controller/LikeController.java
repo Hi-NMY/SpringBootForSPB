@@ -37,7 +37,7 @@ public class LikeController {
     /**
      * @Description: 必要数据：pb_one_id,user_account
      * 非必要数据：cache_account
-     * 返回：RequestEntityJson -> 状态码&String(ip)  |  RequestJson -> 状态码
+     * 返回：RequestEntityJson -> 状态码&String(ip)
      * @Param: [pbId, userAccount, cacheAccount]
      * @return: java.lang.String
      * @Author: nmy

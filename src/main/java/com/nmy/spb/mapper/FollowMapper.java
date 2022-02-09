@@ -36,10 +36,10 @@ public interface FollowMapper {
     List<FollowUserDto> queryFollowUserList(@Param("follow_account") String account);
 
     @Insert("INSERT into follow(follow_account,followed_account) " +
-            "select (#{follow_account},#{followed_account}) " +
+            "select #{follow_account},#{followed_account} " +
             "from dual " +
             "WHERE NOT EXISTS " +
-            "(SELECT id FROM follow WHERE follow_account = #{follow_account} AND followed_account = #{followed_account})")
+            "(SELECT follow_account,followed_account FROM follow WHERE follow_account = #{follow_account} AND followed_account = #{followed_account})")
     int addFollow(@Param("follow_account") String followAccount, @Param("followed_account") String followedAccount);
 
     @Delete("DELETE FROM follow " +

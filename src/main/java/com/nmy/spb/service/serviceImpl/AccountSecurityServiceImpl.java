@@ -40,7 +40,7 @@ public class AccountSecurityServiceImpl implements AccountSecurityService {
 
         if (value != SQLResultCode.ERROR) {
             int i = accountSecurityMapper.updateUserPassword(account, password);
-            if (i != SQLResultCode.ERROR) {
+            if (i == SQLResultCode.ERROR) {
                 return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
             }
             return sqlResultService.noProcess(EnumCode.SUCCESS_UPDATA_PASSWORD);

@@ -1,8 +1,5 @@
 package com.nmy.spb.controller;
 
-import com.nmy.spb.common.EnumCode;
-import com.nmy.spb.common.RequestEntityJson;
-import com.nmy.spb.domain.dto.UserBadgeDto;
 import com.nmy.spb.service.SignService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

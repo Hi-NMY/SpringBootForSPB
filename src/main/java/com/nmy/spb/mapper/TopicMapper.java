@@ -38,7 +38,7 @@ public interface TopicMapper {
 
     @Select("SELECT id,topic_name,topic_barnum,topic_attentionnum,topic_slogan,topic_image " +
             "FROM topic " +
-            "WHERE topic_name concat('%',#{topic_name},'%')")
+            "WHERE topic_name like concat('%',#{topic_name},'%')")
     List<Topic> querySearchTopicFullList(@Param("topic_name") String topicName);
 
     @Update("UPDATE topic " +

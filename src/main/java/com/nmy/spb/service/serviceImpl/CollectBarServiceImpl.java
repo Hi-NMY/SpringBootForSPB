@@ -58,7 +58,7 @@ public class CollectBarServiceImpl implements CollectBarService {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
         if (DataVerificationTool.isEmpty(cacheAccount)){
-            return sqlResultService.noProcess(EnumCode.SUCCESS_COLLECT);
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_COLLECT, null));
         }
 
         String userIp = userIpMapper.queryUserIp(cacheAccount);

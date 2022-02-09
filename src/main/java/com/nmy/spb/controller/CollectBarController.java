@@ -51,7 +51,7 @@ public class CollectBarController {
     /**
      * @Description: 必要数据：CollectBarDto -> pb_one_id,user_account
      * 非必要数据：cache_account
-     * 返回：RequestEntityJson -> 状态码&String(ip)  |  RequestJson -> 状态码
+     * 返回：RequestEntityJson -> 状态码&String(ip)
      * 特殊：cache_account->判断是否发送通知(若收藏自己的帖子该值可置空)   客户端使用RequestEntityJson接收
      * @Param: [collectBarDto, cacheAccount]
      * @return: java.lang.String

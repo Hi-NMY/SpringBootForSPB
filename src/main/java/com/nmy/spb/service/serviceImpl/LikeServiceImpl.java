@@ -51,17 +51,17 @@ public class LikeServiceImpl implements LikeService {
             int ai = postBarMapper.updateIncreaseLike(pbId);
             if (!sqlResultService.transactionalProcess(ai, bi)) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+                return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_DEFAULT, null));
             }
 
             if (!DataVerificationTool.isEmpty(cacheAccount)) {
                 String userIp = userIpMapper.queryUserIp(cacheAccount);
                 return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userIp));
             }
-            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, null));
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_DEFAULT, null));
         }
     }
 
