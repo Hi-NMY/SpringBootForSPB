@@ -1,10 +1,15 @@
 package com.nmy.spb.controller;
 
+import com.nmy.spb.common.RequestCode;
+import com.nmy.spb.common.RequestEntityJson;
+import com.nmy.spb.common.RequestListJson;
 import com.nmy.spb.domain.pojo.Bar;
 import com.nmy.spb.service.PostBarService;
+import io.swagger.annotations.*;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,205 +25,210 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("/postbar")
+@Api(tags = "帖子控制")
 public class PostBarController {
 
     @Resource
     PostBarService postBarService;
 
-    /**
-     * @Description: 必要数据：pb_date
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [pbDate]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:37
-     */
-    @RequestMapping("/queryNoVideoBarListForDate")
+    @RequestMapping(path = "/queryNoVideoBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pb_date", value = "第一条帖子时间", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryNoVideoBarListForDate(@RequestParam("pb_date") String pbDate) {
         return postBarService.queryNoVideoBarListForDate(pbDate);
     }
 
-    /**
-     * @Description: 必要数据：pb_thumb_num,topic_name
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_thumb_num可置空
-     * @Param: [thumbNum, topicName]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:38
-     */
-    @RequestMapping("/queryNoVideoTopicBarListForThumbNum")
+    @RequestMapping(path = "/queryNoVideoTopicBarListForThumbNum", method = RequestMethod.POST)
+    @ApiOperation(value = "根据点赞获取话题帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_thumb_num可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pb_thumb_num", value = "点赞数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "topic_name", value = "话题名", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryNoVideoTopicBarListForThumbNum(@RequestParam("pb_thumb_num") String thumbNum, @RequestParam("topic_name") String topicName) {
         return postBarService.queryNoVideoTopicBarListForThumbNum(thumbNum, topicName);
     }
 
-    /**
-     * @Description: 必要数据：pb_date,topic_name
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [pbDate, topicName]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:39
-     */
-    @RequestMapping("/queryNoVideoTopicBarListForDate")
+    @RequestMapping(path = "/queryNoVideoTopicBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取话题帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pb_date", value = "点赞数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "topic_name", value = "话题名", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryNoVideoTopicBarListForDate(@RequestParam("pb_date") String pbDate, @RequestParam("topic_name") String topicName) {
         return postBarService.queryNoVideoTopicBarListForDate(pbDate, topicName);
     }
 
-    /**
-     * @Description: 必要数据：user_account,pb_date
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [userAccount, pbDate]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:40
-     */
-    @RequestMapping("/queryNoVideoUserBarListForDate")
+    @RequestMapping(path = "/queryNoVideoUserBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取用户帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "空间用户账号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "pb_date", value = "时间", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryNoVideoUserBarListForDate(@RequestParam("user_account") String userAccount, @RequestParam("pb_date") String pbDate) {
         return postBarService.queryNoVideoUserBarListForDate(userAccount, pbDate);
     }
 
-    /**
-     * @Description: 必要数据：user_account
-     * 返回：RequestEntityJson -> 状态码&String(count)
-     * @Param: [userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:41
-     */
-    @RequestMapping("/queryUserBarCount")
+    @RequestMapping(path = "/queryUserBarCount", method = RequestMethod.POST)
+    @ApiOperation(value = "获取用户帖子数量", notes = "RequestEntityJson -> 状态码&String(count)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestEntityJson.class)
+    })
     public String queryUserBarCount(@RequestParam("user_account") String userAccount) {
         return postBarService.queryUserBarCount(userAccount);
     }
 
-    /**
-     * @Description: 必要数据：user_account,pb_date
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [userAccount, pbDate]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:41
-     */
-    @RequestMapping("/queryNoVideoFollowBarListForDate")
+    @RequestMapping(path = "/queryNoVideoFollowBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取用户关注帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "pb_date", value = "时间", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryNoVideoFollowBarListForDate(@RequestParam("user_account") String userAccount, @RequestParam("pb_date") String pbDate) {
         return postBarService.queryNoVideoFollowBarListForDate(userAccount, pbDate);
     }
 
-    /**
-     * @Description: 必要数据：pb_one_id
-     * 返回：RequestEntityJson -> 状态码&BarDto
-     * @Param: [pbid]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:42
-     */
-    @RequestMapping("/queryBarDetatilForPbid")
+    @RequestMapping(path = "/queryBarDetatilForPbid", method = RequestMethod.POST)
+    @ApiOperation(value = "获取帖子详细", notes = "RequestEntityJson -> 状态码&BarDto")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pb_one_id", value = "帖子id", required = true, paramType = "query"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestEntityJson.class)
+    })
     public String queryBarDetatilForPbid(@RequestParam("pb_one_id") String pbid) {
         return postBarService.queryBarDetatilForPbid(pbid);
     }
 
-    /**
-     * @Description: 必要数据：user_account
-     * 返回：RequestEntityJson -> 状态码&String(count)
-     * @Param: [userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:42
-     */
-    @RequestMapping("/queryUserBarLikeCount")
+    @RequestMapping(path = "/queryUserBarLikeCount", method = RequestMethod.POST)
+    @ApiOperation(value = "获取用户帖子被赞总数", notes = "RequestEntityJson -> 状态码&String(count)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestEntityJson.class)
+    })
     public String queryUserBarLikeCount(@RequestParam("user_account") String userAccount) {
         return postBarService.queryUserBarLikeCount(userAccount);
     }
 
-    /**
-     * @Description: 必要数据：search_art
-     * 返回：RequestListJson -> 状态码&BarDto
-     * @Param: [searchArt]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:44
-     */
-    @RequestMapping("/queryNoVideoSearchBarListForDate")
+    @RequestMapping(path = "/queryNoVideoSearchBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取用户搜索帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "search_art", value = "搜索内容", required = true, paramType = "query"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryNoVideoSearchBarListForDate(@RequestParam("search_art") String searchArt) {
         return postBarService.queryNoVideoSearchBarListForDate(searchArt);
     }
 
-    /**
-     * @Description: 必要数据：pb_date
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [pbDate]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:44
-     */
-    @RequestMapping("/queryVideoBarListForDate")
+    @RequestMapping(path = "/queryVideoBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取帖子列表(有Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "search_art", value = "搜索内容", required = true, paramType = "query"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryVideoBarListForDate(@RequestParam("pb_date") String pbDate) {
         return postBarService.queryVideoBarListForDate(pbDate);
     }
 
-    /**
-     * @Description: 必要数据：pb_date,topic_name
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [pbDate, topicName]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:45
-     */
-    @RequestMapping("/queryVideoTopicBarListForDate")
+    @RequestMapping(path = "/queryVideoTopicBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取话题帖子列表(有Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pb_date", value = "时间", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "topic_name", value = "话题名", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryVideoTopicBarListForDate(@RequestParam("pb_date") String pbDate, @RequestParam("topic_name") String topicName) {
         return postBarService.queryVideoTopicBarListForDate(pbDate, topicName);
     }
 
-    /**
-     * @Description: 必要数据：pb_date,topic_name
-     * 返回：RequestListJson -> 状态码&BarDto
-     * 特殊：pb_date可置空
-     * @Param: [userAccount, pbDate]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:45
-     */
-    @RequestMapping("/queryVideoUserBarListForDate")
+    @RequestMapping(path = "/queryVideoUserBarListForDate", method = RequestMethod.POST)
+    @ApiOperation(value = "根据时间获取用户帖子列表(有Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
+            "pb_date可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "空间用户账号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "pb_date", value = "时间", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String queryVideoUserBarListForDate(@RequestParam("user_account") String userAccount, @RequestParam("pb_date") String pbDate) {
         return postBarService.queryVideoUserBarListForDate(userAccount, pbDate);
     }
 
-    /**
-     * @Description: 必要数据：pb_one_id
-     * 返回：RequestCode -> 状态码
-     * @Param: [pbid]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-28 17:46
-     */
-    @RequestMapping("/deleteBar")
+    @RequestMapping(path = "/deleteBar", method = RequestMethod.POST)
+    @ApiOperation(value = "删除帖子", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pb_one_id", value = "帖子id", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "已删除", response = RequestCode.class)
+    })
     public String deleteBar(@RequestParam("pb_one_id") String pbid) {
         return postBarService.deleteBar(pbid);
     }
 
-    /**
-     * @Description: 必要数据：Bar-> user_account,pb_article,pb_topic,pb_location
-     * 非必要数据：image_file,voice_file,video_file
-     * 返回：RequestEntityJson -> 状态码&BarDto
-     * 特殊：pb_topic,pb_location无数据时可置空
-     * @Param: [bar, image, voice]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 16:55
-     */
-    @RequestMapping("/addBar")
+    @RequestMapping(path = "/addBar", method = RequestMethod.POST)
+    @ApiOperation(value = "添加帖子(无Video,有Img或Voice)", notes = "RequestEntityJson -> 状态码&BarDto\n" +
+            "pb_topic,pb_location无数据时可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "image_file", value = "图片", paramType = "query"),
+            @ApiImplicitParam(name = "voice_file", value = "音频", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestEntityJson.class),
+            @ApiResponse(code = 200, message = "已发布", response = RequestEntityJson.class)
+    })
     public String addBar(Bar bar, @Nullable @RequestParam("image_file") List<MultipartFile> image
             , @Nullable @RequestParam("voice_file") MultipartFile voice) {
         return postBarService.addBar(bar, image, voice);
     }
 
-    @RequestMapping("/addBarVideo")
+    @RequestMapping(path = "/addBarVideo", method = RequestMethod.POST)
+    @ApiOperation(value = "添加帖子(有Video,无Img和Voice)", notes = "RequestEntityJson -> 状态码&BarDto\n" +
+            "pb_topic,pb_location无数据时可置空")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "video_file", value = "视频", paramType = "query"),
+            @ApiImplicitParam(name = "video_image_file", value = "视频缩略图", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestEntityJson.class),
+            @ApiResponse(code = 200, message = "已发布", response = RequestEntityJson.class)
+    })
     public String addBarVideo(Bar bar, @Nullable @RequestParam("video_file") MultipartFile video
             , @Nullable @RequestParam("video_image_file") MultipartFile videoImg) {
         return postBarService.addBarVideo(bar, video, videoImg);

@@ -1,10 +1,14 @@
 package com.nmy.spb.controller;
 
+import com.nmy.spb.common.RequestCode;
+import com.nmy.spb.common.RequestEntityJson;
 import com.nmy.spb.domain.dto.UpdatePasswordDto;
 import com.nmy.spb.domain.dto.VerifyPasswordDto;
 import com.nmy.spb.service.AccountSecurityService;
+import io.swagger.annotations.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,47 +22,45 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("/accountSecurity")
+@Api(tags = "账户验证控制")
 public class AccountSecurityController {
 
     @Resource
     AccountSecurityService accountSecurityService;
 
-    /**
-     * @Description: 必要数据：UpdatePasswordDto -> user_account,user_password_old,user_password
-     * 返回：RequestCode -> 状态码
-     * @Param: [updatePasswordDto]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-27 11:13
-     */
-    @RequestMapping("/updateUserPassword")
+    @RequestMapping(path = "/updateUserPassword", method = RequestMethod.POST)
+    @ApiOperation(value = "修改密码", notes = "Boot使用UpdatePasswordDto解析:\n" +
+            "public String updateUserPassword(UpdatePasswordDto updatePasswordDto)\n" +
+            "RequestCode -> 状态码")
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "密码修改成功", response = RequestCode.class)
+    })
     public String updateUserPassword(UpdatePasswordDto updatePasswordDto) {
         return accountSecurityService.updateUserPassword(updatePasswordDto);
     }
 
-    /**
-     * @Description: 必要数据：user_account
-     * 返回：RequestEntityJson -> 状态码&UserDto
-     * 特殊：传入账号，若账号存在查询用户信息并返回
-     * @Param: [userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-27 11:14
-     */
-    @RequestMapping("/queryVerifyAndUserFull")
+    @RequestMapping(path = "/queryVerifyAndUserFull", method = RequestMethod.POST)
+    @ApiOperation(value = "验证账号", notes = "RequestEntityJson -> 状态码&UserDto")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "该账号未注册", response = RequestEntityJson.class),
+            @ApiResponse(code = 200, message = "空", response = RequestEntityJson.class)
+    })
     public String queryVerifyAndUserFull(@RequestParam("user_account") String userAccount) {
         return accountSecurityService.queryVerifyAndUserFull(userAccount);
     }
 
-    /**
-     * @Description: 必要数据：VerifyPasswordDto -> user_account,user_ip,user_password
-     * 返回：RequestCode -> 状态码
-     * @Param: [verifyPasswordDto]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-27 11:16
-     */
-    @RequestMapping("/queryVerifyUserPassword")
+    @RequestMapping(path = "/queryVerifyUserPassword", method = RequestMethod.POST)
+    @ApiOperation(value = "验证密码", notes = "Boot使用VerifyPasswordDto解析:\n" +
+            "public String queryVerifyUserPassword(VerifyPasswordDto verifyPasswordDto)\n" +
+            "RequestCode -> 状态码")
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "空", response = RequestCode.class)
+    })
     public String queryVerifyUserPassword(VerifyPasswordDto verifyPasswordDto) {
         return accountSecurityService.queryVerifyUserPassword(verifyPasswordDto);
     }

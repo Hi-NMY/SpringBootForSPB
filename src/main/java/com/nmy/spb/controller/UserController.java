@@ -1,9 +1,13 @@
 package com.nmy.spb.controller;
 
+import com.nmy.spb.common.RequestCode;
+import com.nmy.spb.common.RequestListJson;
 import com.nmy.spb.domain.dto.UserInformationDto;
 import com.nmy.spb.service.UserService;
+import io.swagger.annotations.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,137 +22,138 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("/user")
+@Api(tags = "用户信息控制")
 public class UserController {
 
     @Resource
     UserService userService;
 
-    /**
-     * @Description: 必要数据：无
-     * 返回：RequestListJson -> 状态码&SchoolTable
-     * @Param: []
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:15
-     */
-    @RequestMapping("/querySchoolTable")
+    @RequestMapping(path = "/querySchoolTable", method = RequestMethod.POST)
+    @ApiOperation(value = "获取课程表", notes = "RequestListJson -> 状态码&SchoolTable")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String querySchoolTable() {
         return userService.querySchoolTable();
     }
 
-    /**
-     * @Description: 必要数据：search
-     * 返回：RequestListJson -> 状态码&SearchUserDto
-     * @Param: [search]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:15
-     */
-    @RequestMapping("/querySearchUser")
+    @RequestMapping(path = "/querySearchUser", method = RequestMethod.POST)
+    @ApiOperation(value = "搜索用户", notes = "RequestListJson -> 状态码&SearchUserDto")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "search", value = "搜索字符", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
+    })
     public String querySearchUser(@RequestParam("search") String search) {
         return userService.querySearchUser(search);
     }
 
-    /**
-     * @Description: 必要数据：UserInformationDto -> 全部
-     * 返回：RequestCode -> 状态码
-     * @Param: [info]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:16
-     */
-    @RequestMapping("/updateUserPersonalInformation")
+    @RequestMapping(path = "/updateUserPersonalInformation", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户个人信息", notes = "RequestCode -> 状态码\n" +
+            "Boot通过UserInformationDto解析\n" +
+            "public String updateUserPersonalInformation(UserInformationDto info)")
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "已修改", response = RequestCode.class)
+    })
     public String updateUserPersonalInformation(UserInformationDto info) {
         return userService.updateUserPersonalInformation(info);
     }
 
-    /**
-     * @Description: 必要数据：user_account,ip
-     * 返回：RequestCode -> 状态码
-     * @Param: [userAccount, ip]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-02-05 19:48
-     */
-    @RequestMapping("/updateUserIp")
+    @RequestMapping(path = "/updateUserIp", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户ip", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "ip", value = "用户ip", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "已修改", response = RequestCode.class)
+    })
     public String updateUserIp(@RequestParam("user_account") String userAccount, @RequestParam("ip") String ip) {
         return userService.updateUserIp(userAccount, ip);
     }
 
-    /**
-     * @Description: 必要数据：user_account,token
-     * 返回：RequestCode -> 状态码
-     * @Param: [userAccount, token]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-02-05 19:48
-     */
-    @RequestMapping("/updateUserToken")
+    @RequestMapping(path = "/updateUserToken", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户token", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "token", value = "用户token", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "已修改", response = RequestCode.class)
+    })
     public String updateUserToken(@RequestParam("user_account") String userAccount, @RequestParam("token") String token) {
         return userService.updateUserToken(userAccount, token);
     }
 
-    /**
-     * @Description: 必要数据：user_account   file
-     * 返回：RequestCode -> 状态码
-     * @Param: [file, userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:16
-     */
-    @RequestMapping("/updateUserHeadImage")
+    @RequestMapping(path = "/updateUserHeadImage", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户头像", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "头像", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "空", response = RequestCode.class)
+    })
     public String updateUserHeadImage(@RequestParam("file") MultipartFile file, @RequestParam("user_account") String userAccount) {
         return userService.updateUserHeadImage(file, userAccount);
     }
 
-    /**
-     * @Description: 必要数据：user_account   file
-     * 返回：RequestCode -> 状态码
-     * @Param: [file, userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:16
-     */
-    @RequestMapping("/updateUserBgImage")
+    @RequestMapping(path = "/updateUserBgImage", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户主页背景", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "背景", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "空", response = RequestCode.class)
+    })
     public String updateUserBgImage(@RequestParam("file") MultipartFile file, @RequestParam("user_account") String userAccount) {
         return userService.updateUserBgImage(file, userAccount);
     }
 
-    /**
-     * @Description: 必要数据：user_account,user_badge
-     * 返回：RequestCode -> 状态码
-     * @Param: [userBadge, userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:16
-     */
-    @RequestMapping("/updateUserBadgeImage")
+    @RequestMapping(path = "/updateUserBadgeImage", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户使用徽章", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_badge", value = "徽章", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "空", response = RequestCode.class)
+    })
     public String updateUserBadgeImage(@RequestParam("user_badge") String userBadge, @RequestParam("user_account") String userAccount) {
         return userService.updateUserBadgeImage(userBadge, userAccount);
     }
 
-    /**
-     * @Description: 必要数据：user_account,user_privacy
-     * 返回：RequestCode -> 状态码
-     * @Param: [userPrivacy, userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:16
-     */
-    @RequestMapping("/updateUserPrivacy")
+    @RequestMapping(path = "/updateUserPrivacy", method = RequestMethod.POST)
+    @ApiOperation(value = "更新用户隐私设置", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_privacy", value = "隐私设置", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "已修改", response = RequestCode.class)
+    })
     public String updateUserPrivacy(@RequestParam("user_privacy") String userPrivacy, @RequestParam("user_account") String userAccount) {
         return userService.updateUserPrivacy(userPrivacy, userAccount);
     }
 
-    /**
-     * @Description: 必要数据：user_account
-     * 返回：RequestCode -> 状态码
-     * @Param: [userAccount]
-     * @return: java.lang.String
-     * @Author: nmy
-     * @Date: 2022-01-29 18:16
-     */
-    @RequestMapping("/deleteUserIp")
+    @RequestMapping(path = "/deleteUserIp", method = RequestMethod.POST)
+    @ApiOperation(value = "删除用户ip", notes = "RequestCode -> 状态码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
+            @ApiResponse(code = 200, message = "空", response = RequestCode.class)
+    })
     public String deleteUserIp(@RequestParam("user_account") String userAccount) {
         return userService.deleteUserIp(userAccount);
     }

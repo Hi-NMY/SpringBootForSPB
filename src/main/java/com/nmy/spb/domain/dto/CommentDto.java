@@ -1,5 +1,7 @@
 package com.nmy.spb.domain.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,17 +16,37 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("评论信息封装")
 public class CommentDto implements Serializable {
 
+    @ApiModelProperty(value = "帖子id", required = true)
     public String pb_one_id;
+
+    @ApiModelProperty(value = "评论内容", required = true)
     public String comment_art;
+
+    @ApiModelProperty(value = "评论时间")
     public String comment_date;
+
+    @ApiModelProperty(value = "评论用户账号", required = true)
     public String comment_user;
+
+    @ApiModelProperty(value = "评论用户用户名")
     public String user_name;
+
+    @ApiModelProperty(value = "回复用户账号", required = true)
     public String comment_touser;
+
+    @ApiModelProperty(value = "回复用户用户名")
     public String user_toname;
+
+    @ApiModelProperty(value = "评论楼层",notes = "传入String类型",example = "1")
     public int comment_id;
+
+    @ApiModelProperty(value = "被评论帖子账号")
     public String cache_account;
+
+    @ApiModelProperty(value = "被评论帖子用户ip")
     public String user_ip;
 
     public String getPb_one_id() {
