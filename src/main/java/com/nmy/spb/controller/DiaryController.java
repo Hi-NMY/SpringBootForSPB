@@ -28,7 +28,7 @@ public class DiaryController {
     @Resource
     DiaryService diaryService;
 
-    @RequestMapping(path = "/queryDiary", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryDiary", method = RequestMethod.GET)
     @ApiOperation(value = "获取日记列表", notes = "RequestListJson -> 状态码&Diary")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")

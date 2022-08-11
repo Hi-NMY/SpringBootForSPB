@@ -2,10 +2,10 @@ package com.nmy.spb.service;
 
 /**
  * @author nmy
- * @title: TopicService
+ * @title: TopicIService
  * @date 2022-01-23 14:09
  */
-public interface TopicService {
+public interface TopicIService {
 
     String queryTopicNameList();
 

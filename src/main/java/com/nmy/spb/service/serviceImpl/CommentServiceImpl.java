@@ -62,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
             }
             return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_COMMENT, comment));
         }else {
-            return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_DEFAULT, ""));
         }
     }
 

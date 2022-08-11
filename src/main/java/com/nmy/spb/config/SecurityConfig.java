@@ -43,22 +43,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/login","/users/register").anonymous()
+                .antMatchers("/accountSecurity/queryVerifyAndUserFull","/accountSecurity/queryVerifyUserPassword","/registered/userRegistered").anonymous()
                 .antMatchers(
+                        HttpMethod.GET,
                         "/accountSecurity/**",
                         "/",
-                        "/attentiontopic/**",
+                        "/appVersion/**",
+                        "/attention/**",
                         "/collectbar/**",
+                        "/comment/**",
+                        "/date/**",
+                        "/diary/**",
                         "/follow/**",
-                        "/likepb/**",
-                        "/postbarComment/**",
-                        "/postbarlist/**",
+                        "/followed/**",
+                        "/like/**",
+                        "/postbar/**",
+                        "/sign/**",
                         "/topic/**",
                         "/user/**",
-                        "/users/**",
-                        "/userSign/**",
                         "/upload/**"
                 ).permitAll()
+                .antMatchers("/accountSecurity/queryVerifyAndUserFull").permitAll()
                 .anyRequest().authenticated();
         //  http.exceptionHandling().authenticationEntryPoint(sAuthenticationHanlder);
         http.addFilterBefore(userTokenFilter, UsernamePasswordAuthenticationFilter.class);

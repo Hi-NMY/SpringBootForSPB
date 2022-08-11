@@ -37,7 +37,7 @@ public class UserController {
         return userService.querySchoolTable();
     }
 
-    @RequestMapping(path = "/querySearchUser", method = RequestMethod.POST)
+    @RequestMapping(path = "/querySearchUser", method = RequestMethod.GET)
     @ApiOperation(value = "搜索用户", notes = "RequestListJson -> 状态码&SearchUserDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "search", value = "搜索字符", required = true, paramType = "query")

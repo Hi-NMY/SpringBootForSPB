@@ -5,7 +5,7 @@ package com.nmy.spb.service;
  * @title: FollowService
  * @date 2022-01-23 10:08
  */
-public interface FollowService {
+public interface FollowIService {
 
     String queryFollowList(String userAccount);
 

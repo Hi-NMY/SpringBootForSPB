@@ -27,7 +27,7 @@ public class LikeController {
     @Resource
     LikeService likeService;
 
-    @RequestMapping(path = "/queryLike", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryLike", method = RequestMethod.GET)
     @ApiOperation(value = "获取点赞列表", notes = "RequestListJson -> 状态码&Like")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")

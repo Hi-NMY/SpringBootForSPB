@@ -28,7 +28,7 @@ public class CollectBarController {
     @Resource
     CollectBarService collectBarService;
 
-    @RequestMapping(path = "/queryCollectBarList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryCollectBarList", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户收藏帖子(Basic)", notes = "RequestListJson -> 状态码&String(pb_one_id)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "被收藏用户账号", required = true, paramType = "query")
@@ -40,7 +40,7 @@ public class CollectBarController {
         return collectBarService.queryCollectBarList(userAccount);
     }
 
-    @RequestMapping(path = "/queryCollectBarFullList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryCollectBarFullList", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户收藏帖子(Full)", notes = "RequestListJson -> 状态码&BarDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")

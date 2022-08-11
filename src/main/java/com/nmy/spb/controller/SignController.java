@@ -26,7 +26,7 @@ public class SignController {
     @Resource
     SignService signService;
 
-    @RequestMapping(path = "/queryUserSign", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryUserSign", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户签到信息", notes = "RequestEntityJson -> 状态码&Sign")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
@@ -38,7 +38,7 @@ public class SignController {
         return signService.queryUserSign(userAccount);
     }
 
-    @RequestMapping(path = "/queryUserBadge", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryUserBadge", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户徽章", notes = "RequestEntityJson -> 状态码&UserBadgeDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")

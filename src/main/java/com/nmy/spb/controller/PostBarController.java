@@ -31,7 +31,7 @@ public class PostBarController {
     @Resource
     PostBarService postBarService;
 
-    @RequestMapping(path = "/queryNoVideoBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryNoVideoBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({
@@ -44,7 +44,7 @@ public class PostBarController {
         return postBarService.queryNoVideoBarListForDate(pbDate);
     }
 
-    @RequestMapping(path = "/queryNoVideoTopicBarListForThumbNum", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryNoVideoTopicBarListForThumbNum", method = RequestMethod.GET)
     @ApiOperation(value = "根据点赞获取话题帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_thumb_num可置空")
     @ApiImplicitParams({
@@ -58,7 +58,7 @@ public class PostBarController {
         return postBarService.queryNoVideoTopicBarListForThumbNum(thumbNum, topicName);
     }
 
-    @RequestMapping(path = "/queryNoVideoTopicBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryNoVideoTopicBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取话题帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({
@@ -72,7 +72,7 @@ public class PostBarController {
         return postBarService.queryNoVideoTopicBarListForDate(pbDate, topicName);
     }
 
-    @RequestMapping(path = "/queryNoVideoUserBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryNoVideoUserBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取用户帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({
@@ -86,7 +86,7 @@ public class PostBarController {
         return postBarService.queryNoVideoUserBarListForDate(userAccount, pbDate);
     }
 
-    @RequestMapping(path = "/queryUserBarCount", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryUserBarCount", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户帖子数量", notes = "RequestEntityJson -> 状态码&String(count)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
@@ -98,7 +98,7 @@ public class PostBarController {
         return postBarService.queryUserBarCount(userAccount);
     }
 
-    @RequestMapping(path = "/queryNoVideoFollowBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryNoVideoFollowBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取用户关注帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({
@@ -112,7 +112,7 @@ public class PostBarController {
         return postBarService.queryNoVideoFollowBarListForDate(userAccount, pbDate);
     }
 
-    @RequestMapping(path = "/queryBarDetatilForPbid", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryBarDetatilForPbid", method = RequestMethod.GET)
     @ApiOperation(value = "获取帖子详细", notes = "RequestEntityJson -> 状态码&BarDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pb_one_id", value = "帖子id", required = true, paramType = "query"),
@@ -124,7 +124,7 @@ public class PostBarController {
         return postBarService.queryBarDetatilForPbid(pbid);
     }
 
-    @RequestMapping(path = "/queryUserBarLikeCount", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryUserBarLikeCount", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户帖子被赞总数", notes = "RequestEntityJson -> 状态码&String(count)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query"),
@@ -136,7 +136,7 @@ public class PostBarController {
         return postBarService.queryUserBarLikeCount(userAccount);
     }
 
-    @RequestMapping(path = "/queryNoVideoSearchBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryNoVideoSearchBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取用户搜索帖子列表(无Video)", notes = "RequestListJson -> 状态码&BarDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "search_art", value = "搜索内容", required = true, paramType = "query"),
@@ -148,7 +148,7 @@ public class PostBarController {
         return postBarService.queryNoVideoSearchBarListForDate(searchArt);
     }
 
-    @RequestMapping(path = "/queryVideoBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryVideoBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取帖子列表(有Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({
@@ -161,7 +161,7 @@ public class PostBarController {
         return postBarService.queryVideoBarListForDate(pbDate);
     }
 
-    @RequestMapping(path = "/queryVideoTopicBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryVideoTopicBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取话题帖子列表(有Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({
@@ -175,7 +175,7 @@ public class PostBarController {
         return postBarService.queryVideoTopicBarListForDate(pbDate, topicName);
     }
 
-    @RequestMapping(path = "/queryVideoUserBarListForDate", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryVideoUserBarListForDate", method = RequestMethod.GET)
     @ApiOperation(value = "根据时间获取用户帖子列表(有Video)", notes = "RequestListJson -> 状态码&BarDto\n" +
             "pb_date可置空")
     @ApiImplicitParams({

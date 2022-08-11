@@ -25,7 +25,7 @@ public class FollowedController {
     @Resource
     FollowedService followedService;
 
-    @RequestMapping(path = "/queryFollowedList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryFollowedList", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户被关注列表", notes = "RequestListJson -> 状态码&String(follow_account)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
@@ -37,7 +37,7 @@ public class FollowedController {
         return followedService.queryFollowedList(userAccount);
     }
 
-    @RequestMapping(path = "/queryFollowedUserList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryFollowedUserList", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户被关注信息列表", notes = "RequestListJson -> 状态码&FollowUserDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")

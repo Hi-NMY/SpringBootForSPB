@@ -42,7 +42,7 @@ public class CommentController {
         return commentService.addComment(comment);
     }
 
-    @RequestMapping(path = "/queryCommentList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryCommentList", method = RequestMethod.GET)
     @ApiOperation(value = "获取评论列表", notes = "RequestListJson -> 状态码&CommentDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pb_one_id", value = "帖子id", required = true, paramType = "query")
@@ -54,7 +54,7 @@ public class CommentController {
         return commentService.queryCommentList(pbId);
     }
 
-    @RequestMapping(path = "/queryCommentOne", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryCommentOne", method = RequestMethod.GET)
     @ApiOperation(value = "获取通知评论", notes = "RequestEntityJson -> 状态码&CommentDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pb_one_id", value = "帖子id", required = true, paramType = "query"),

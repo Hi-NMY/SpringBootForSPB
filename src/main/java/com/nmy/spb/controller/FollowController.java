@@ -3,7 +3,7 @@ package com.nmy.spb.controller;
 import com.nmy.spb.common.RequestCode;
 import com.nmy.spb.common.RequestEntityJson;
 import com.nmy.spb.common.RequestListJson;
-import com.nmy.spb.service.FollowService;
+import com.nmy.spb.service.FollowIService;
 import io.swagger.annotations.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +25,9 @@ import javax.annotation.Resource;
 public class FollowController {
 
     @Resource
-    FollowService followService;
+    FollowIService followIService;
 
-    @RequestMapping(path = "/queryFollowList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryFollowList", method = RequestMethod.GET)
     @ApiOperation(value = "获取关注用户列表", notes = "RequestListJson -> 状态码&String(followed_account)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
@@ -36,10 +36,10 @@ public class FollowController {
             @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
     })
     public String queryFollowList(@RequestParam("user_account") String userAccount) {
-        return followService.queryFollowList(userAccount);
+        return followIService.queryFollowList(userAccount);
     }
 
-    @RequestMapping(path = "/queryFollowCount", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryFollowCount", method = RequestMethod.GET)
     @ApiOperation(value = "获取关注数", notes = "RequestEntityJson -> 状态码&String(count)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
@@ -48,10 +48,10 @@ public class FollowController {
             @ApiResponse(code = 200, message = "空", response = RequestEntityJson.class)
     })
     public String queryFollowCount(@RequestParam("user_account") String userAccount) {
-        return followService.queryFollowCount(userAccount);
+        return followIService.queryFollowCount(userAccount);
     }
 
-    @RequestMapping(path = "/queryFollowedCount", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryFollowedCount", method = RequestMethod.GET)
     @ApiOperation(value = "获取被关注数", notes = "RequestEntityJson -> 状态码&String(count)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
@@ -60,10 +60,10 @@ public class FollowController {
             @ApiResponse(code = 200, message = "空", response = RequestEntityJson.class)
     })
     public String queryFollowedCount(@RequestParam("user_account") String userAccount) {
-        return followService.queryFollowedCount(userAccount);
+        return followIService.queryFollowedCount(userAccount);
     }
 
-    @RequestMapping(path = "/queryFollowUserList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryFollowUserList", method = RequestMethod.GET)
     @ApiOperation(value = "获取关注用户信息列表", notes = "RequestListJson -> 状态码&FollowUserDtov")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")
@@ -72,7 +72,7 @@ public class FollowController {
             @ApiResponse(code = 200, message = "空", response = RequestListJson.class)
     })
     public String queryFollowUserList(@RequestParam("user_account") String userAccount) {
-        return followService.queryFollowUserList(userAccount);
+        return followIService.queryFollowUserList(userAccount);
     }
 
     @RequestMapping(path = "/addFollow", method = RequestMethod.POST)
@@ -88,7 +88,7 @@ public class FollowController {
             @ApiResponse(code = 2000, message = "已关注", response = RequestCode.class),
     })
     public String addFollow(@RequestParam("follow_account") String followAccount, @RequestParam("followed_account") String followedAccount) {
-        return followService.addFollow(followAccount, followedAccount);
+        return followIService.addFollow(followAccount, followedAccount);
     }
 
     @RequestMapping(path = "/deleteFollow", method = RequestMethod.POST)
@@ -102,6 +102,6 @@ public class FollowController {
             @ApiResponse(code = 200, message = "取消关注", response = RequestCode.class)
     })
     public String deleteFollow(@RequestParam("follow_account") String followAccount, @RequestParam("followed_account") String followedAccount) {
-        return followService.deleteFollow(followAccount, followedAccount);
+        return followIService.deleteFollow(followAccount, followedAccount);
     }
 }

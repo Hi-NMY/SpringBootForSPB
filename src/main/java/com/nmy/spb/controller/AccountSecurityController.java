@@ -58,7 +58,7 @@ public class AccountSecurityController {
             @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
             @ApiResponse(code = 200, message = "空", response = RequestCode.class)
     })
-    public String queryVerifyUserPassword(@RequestBody VerifyPasswordDto verifyPasswordDto) {
+    public String queryVerifyUserPassword(VerifyPasswordDto verifyPasswordDto) {
         return accountSecurityService.queryVerifyUserPassword(verifyPasswordDto);
     }
 

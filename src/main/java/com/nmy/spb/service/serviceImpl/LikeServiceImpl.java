@@ -10,11 +10,15 @@ import com.nmy.spb.mapper.UserIpMapper;
 import com.nmy.spb.service.LikeService;
 import com.nmy.spb.service.SqlResultService;
 import com.nmy.spb.utils.DataVerificationTool;
+import com.soft.spb.pojo.entity.Likepb;
+import com.soft.spb.service.LikepbService;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,60 +30,50 @@ import java.util.List;
 public class LikeServiceImpl implements LikeService {
 
     @Resource
-    LikeMapper likeMapper;
-
-    @Resource
     UserIpMapper userIpMapper;
-
-    @Resource
-    PostBarMapper postBarMapper;
 
     @Resource
     SqlResultService sqlResultService;
 
+    @DubboReference
+    LikepbService likepbService;
+
     @Override
     public String queryLike(String userAccount) {
-        List<Like> likes = likeMapper.queryLike(userAccount);
+        Likepb likepb = new Likepb();
+        likepb.setUserAccount(userAccount);
+        List<String> strings = likepbService.queryLike(likepb);
+        ArrayList<Like> likes = new ArrayList<>();
+        for (String string : strings) {
+            Like like = new Like();
+            like.setPb_one_id(string);
+            likes.add(like);
+        }
         return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, likes));
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public String addLike(String pbId, String userAccount, String cacheAccount) {
-        try {
-            int bi = likeMapper.addLike(userAccount, pbId);
-            int ai = postBarMapper.updateIncreaseLike(pbId);
-            if (!sqlResultService.transactionalProcess(ai, bi)) {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_DEFAULT, null));
-            }
-
-            if (!DataVerificationTool.isEmpty(cacheAccount)) {
-                String userIp = userIpMapper.queryUserIp(cacheAccount);
-                return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userIp));
-            }
-            return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, null));
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_DEFAULT, null));
+        Likepb likepb = new Likepb();
+        likepb.setPbOneId(pbId);
+        likepb.setUserAccount(userAccount);
+        boolean b = likepbService.addLike(likepb);
+        if (b) {
+            String userIp = userIpMapper.queryUserIp(cacheAccount);
+            return sqlResultService.process(new RequestEntityJson<>(EnumCode.SUCCESS_DEFAULT, userIp));
         }
+        return sqlResultService.process(new RequestEntityJson<>(EnumCode.ERROR_DEFAULT, null));
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public String deleteLike(String pbId, String userAccount) {
-        try {
-            int bi = likeMapper.deleteLike(userAccount, pbId);
-            int ai = postBarMapper.updateReduceLike(pbId);
-            if (sqlResultService.transactionalProcess(ai, bi)) {
-                return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
-            } else {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
-            }
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
+        Likepb likepb = new Likepb();
+        likepb.setPbOneId(pbId);
+        likepb.setUserAccount(userAccount);
+        boolean b = likepbService.deleteLike(likepb);
+        if (b) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DEFAULT);
         }
+        return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
     }
 }
