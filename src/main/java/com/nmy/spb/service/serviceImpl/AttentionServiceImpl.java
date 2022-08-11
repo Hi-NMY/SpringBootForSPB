@@ -3,16 +3,17 @@ package com.nmy.spb.service.serviceImpl;
 import com.nmy.spb.common.EnumCode;
 import com.nmy.spb.common.RequestListJson;
 import com.nmy.spb.domain.dto.AttentionTopicDto;
-import com.nmy.spb.mapper.AttentionTopicMapper;
-import com.nmy.spb.mapper.TopicMapper;
 import com.nmy.spb.service.AttentionService;
 import com.nmy.spb.utils.DataVerificationTool;
-import com.nmy.spb.utils.DateTool;
+import com.soft.spb.pojo.dto.AttentiontopicDto;
+import com.soft.spb.pojo.entity.Attentiontopic;
+import com.soft.spb.pojo.vo.AttentiontopicVo;
+import com.soft.spb.service.AttentiontopicService;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,15 +24,12 @@ import java.util.Map;
  */
 @Service
 public class AttentionServiceImpl implements AttentionService {
-
-    @Resource
-    AttentionTopicMapper attentionTopicMapper;
-    @Resource
-    TopicMapper topicMapper;
     @Resource
     SqlResultServiceImpl sqlResultService;
 
-    @Transactional(rollbackFor = Exception.class)
+    @DubboReference
+    AttentiontopicService attentiontopicService;
+
     @Override
     public String addAttentionTopic(Map<String, String> params) {
         String userAccount = params.get("user_account");
@@ -41,42 +39,49 @@ public class AttentionServiceImpl implements AttentionService {
         if (DataVerificationTool.isEmpty(userAccount, topicId, topicName)) {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
-        try {
-            int ai = attentionTopicMapper.addAttentionTopic(userAccount, topicId, topicName, DateTool.obtainNowDateTime());
-            int bi = topicMapper.updateIncreaseAttention(Integer.parseInt(topicId));
-            if (sqlResultService.transactionalProcess(ai, bi)) {
-                return sqlResultService.noProcess(EnumCode.SUCCESS_ADD_ATTENTONTOPIC);
-            } else {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
-            }
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        Attentiontopic attentiontopic = new Attentiontopic();
+        attentiontopic.setUserAccount(userAccount);
+        attentiontopic.setTopicId(Integer.parseInt(topicId));
+        attentiontopic.setTopicName(topicName);
+        Boolean aBoolean = attentiontopicService.addAttentionTopic(attentiontopic);
+        if (aBoolean) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_ADD_ATTENTONTOPIC);
+        } else {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
     }
 
     @Override
     public String queryAttentionTopic(String account) {
-        List<AttentionTopicDto> attentionTopicDtos = attentionTopicMapper.queryAttentionTopic(account, DateTool.obtainNowDateTime());
-
-        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, attentionTopicDtos));
+        AttentiontopicDto attentiontopicDto = new AttentiontopicDto();
+        attentiontopicDto.setUserAccount(account);
+        attentiontopicDto.setSearch("#");
+        attentiontopicDto.setId(0L);
+        List<AttentiontopicVo> attentiontopicVos = attentiontopicService.queryAttentionTopic(attentiontopicDto);
+        ArrayList<AttentionTopicDto> ats = new ArrayList<>();
+        for (AttentiontopicVo o : attentiontopicVos) {
+            AttentionTopicDto attentionTopicDto = new AttentionTopicDto();
+            attentionTopicDto.setId(o.getId());
+            attentionTopicDto.setTopic_attentionnum(o.getTopicAttentionnum());
+            attentionTopicDto.setTopic_barnum(o.getTopicBarnum());
+            attentionTopicDto.setTopic_date(o.getTopicDate().toString());
+            attentionTopicDto.setTopic_image(o.getTopicImage());
+            attentionTopicDto.setTopic_name(o.getTopicName());
+            attentionTopicDto.setTopic_slogan(o.getTopicSlogan());
+            ats.add(0, attentionTopicDto);
+        }
+        return sqlResultService.process(new RequestListJson<>(EnumCode.SUCCESS_DEFAULT, ats));
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public String deleteAttentionTopicById(String id, String userAccount) {
-        try {
-            int ai = attentionTopicMapper.deleteAttentionTopicById(userAccount, id);
-            int bi = topicMapper.updateReduceAttention(Integer.parseInt(id));
-            if (sqlResultService.transactionalProcess(ai, bi)) {
-                return sqlResultService.noProcess(EnumCode.SUCCESS_DELETE_ATTENTONTOPIC);
-            } else {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
-            }
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        Attentiontopic attentiontopic = new Attentiontopic();
+        attentiontopic.setUserAccount(userAccount);
+        attentiontopic.setTopicId(Integer.parseInt(id));
+        Boolean aBoolean = attentiontopicService.deleteAttentionTopicById(attentiontopic);
+        if (aBoolean) {
+            return sqlResultService.noProcess(EnumCode.SUCCESS_DELETE_ATTENTONTOPIC);
+        } else {
             return sqlResultService.noProcess(EnumCode.ERROR_DEFAULT);
         }
     }

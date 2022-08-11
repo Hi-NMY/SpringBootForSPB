@@ -15,4 +15,6 @@ public interface AccountSecurityService {
     String queryVerifyAndUserFull(String userAccount);
 
     String queryVerifyUserPassword(VerifyPasswordDto verifyPasswordDto);
+
+    String logout(VerifyPasswordDto verifyPasswordDto);
 }

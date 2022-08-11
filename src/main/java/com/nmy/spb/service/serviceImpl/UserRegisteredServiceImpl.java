@@ -10,6 +10,8 @@ import com.nmy.spb.service.SqlResultService;
 import com.nmy.spb.service.UserRegisteredService;
 import com.nmy.spb.utils.DataVerificationTool;
 import com.nmy.spb.utils.FileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -37,6 +39,8 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
 
     @Resource
     SqlResultService sqlResultService;
+    @Autowired
+    PasswordEncoder pas;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -60,7 +64,7 @@ public class UserRegisteredServiceImpl implements UserRegisteredService {
             int ai = initTableMapper.addSignRegistered(account);
             int bi = initTableMapper.addUserRegistered(account, userName,
                     FileUpload.PREFIX_LOCAL + account + FileUpload.HEAD_IMAGE_PATH + FileUpload.HEAD_IMAGE_NAME);
-            int ci = initTableMapper.addUsersRegistered(account, password);
+            int ci = initTableMapper.addUsersRegistered(account, pas.encode(password));
             if (sqlResultService.transactionalProcess(ai, bi, ci)) {
                 if (!createFolder(account)) {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

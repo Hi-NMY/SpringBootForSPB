@@ -27,7 +27,7 @@ public class DateController {
     @Resource
     DateService dateService;
 
-    @RequestMapping(path = "/dateTime", method = RequestMethod.POST)
+    @RequestMapping(path = "/dateTime", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务时间", notes = "RequestEntityJson -> 状态码&String(时间)\n" +
             "GMT+8  日期格式 -> yyyy-MM-dd HH:mm:ss")
     @ApiResponses({

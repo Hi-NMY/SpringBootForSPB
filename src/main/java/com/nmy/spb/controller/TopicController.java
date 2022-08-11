@@ -48,7 +48,7 @@ public class TopicController {
         return topicService.querySearchTopicNameList(topicName);
     }
 
-    @RequestMapping(path = "/queryRundomTopicFullList", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryRundomTopicFullList", method = RequestMethod.GET)
     @ApiOperation(value = "获取随机话题列表", notes = "状态码&Topic")
     @ApiResponses({
             @ApiResponse(code = 200, message = "空", response = RequestListJson.class)

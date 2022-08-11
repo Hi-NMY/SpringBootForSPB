@@ -43,7 +43,7 @@ public class AttentionController {
         return attentionService.addAttentionTopic(params);
     }
 
-    @RequestMapping(path = "/queryAttentionTopic", method = RequestMethod.POST)
+    @RequestMapping(path = "/queryAttentionTopic", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户关注话题", notes = "RequestListJson -> 状态码&AttentionTopicDto")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_account", value = "用户账号", required = true, paramType = "query")

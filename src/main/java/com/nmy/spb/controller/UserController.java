@@ -28,7 +28,7 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @RequestMapping(path = "/querySchoolTable", method = RequestMethod.POST)
+    @RequestMapping(path = "/querySchoolTable", method = RequestMethod.GET)
     @ApiOperation(value = "获取课程表", notes = "RequestListJson -> 状态码&SchoolTable")
     @ApiResponses({
             @ApiResponse(code = 200, message = "空", response = RequestListJson.class)

@@ -2,7 +2,9 @@ package com.nmy.spb;
 
 import okhttp3.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -80,4 +82,10 @@ class SpbApplicationTests {
 //        });
 //        Thread.sleep(4000);
 //    }
+    @Autowired
+    PasswordEncoder pas;
+    @Test
+    public void aaa(){
+        System.out.println(pas.encode("11111111"));
+    }
 }

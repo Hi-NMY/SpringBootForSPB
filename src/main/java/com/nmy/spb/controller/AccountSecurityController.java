@@ -7,10 +7,7 @@ import com.nmy.spb.domain.dto.VerifyPasswordDto;
 import com.nmy.spb.service.AccountSecurityService;
 import io.swagger.annotations.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -36,7 +33,7 @@ public class AccountSecurityController {
             @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
             @ApiResponse(code = 200, message = "密码修改成功", response = RequestCode.class)
     })
-    public String updateUserPassword(UpdatePasswordDto updatePasswordDto) {
+    public String updateUserPassword(@RequestBody UpdatePasswordDto updatePasswordDto) {
         return accountSecurityService.updateUserPassword(updatePasswordDto);
     }
 
@@ -61,8 +58,13 @@ public class AccountSecurityController {
             @ApiResponse(code = 4004, message = "错误，请重试", response = RequestCode.class),
             @ApiResponse(code = 200, message = "空", response = RequestCode.class)
     })
-    public String queryVerifyUserPassword(VerifyPasswordDto verifyPasswordDto) {
+    public String queryVerifyUserPassword(@RequestBody VerifyPasswordDto verifyPasswordDto) {
         return accountSecurityService.queryVerifyUserPassword(verifyPasswordDto);
+    }
+
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public String logout(@RequestBody VerifyPasswordDto verifyPasswordDto) {
+        return accountSecurityService.logout(verifyPasswordDto);
     }
 
 }

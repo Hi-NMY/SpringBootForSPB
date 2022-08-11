@@ -1,6 +1,7 @@
 package com.nmy.spb.mapper;
 
 import com.nmy.spb.domain.dto.UserDto;
+import com.nmy.spb.domain.pojo.Users;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -12,10 +13,10 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface AccountSecurityMapper {
 
-    @Select("SELECT IFNULL(MAX(id),-1) " +
+    @Select("SELECT user_account,user_password,user_secret_protection " +
             "FROM users " +
-            "where user_account = #{user_account} AND user_password = #{user_password}")
-    int queryUserExist(@Param("user_account") String userAccount, @Param("user_password") String userPassword);
+            "where user_account = #{user_account}")
+    Users queryUserExist(@Param("user_account") String userAccount);
 
     @Update("UPDATE users " +
             "SET user_password = #{user_password} " +
